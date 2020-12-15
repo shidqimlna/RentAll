@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".RegisterActivity">
+
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/activity_register_tv_register"
+            style="@style/CodeFontBold"
+            android:layout_marginVertical="24dp"
+            android:gravity="center"
+            android:text="Register"
+            android:textColor="@color/colorWhite"
+            android:textSize="32sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:background="@color/colorWhite">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:src="@drawable/ic_account" />
+
+            <EditText
+                android:id="@+id/activity_register_et_fullname"
+                style="@style/CodeFontRegular"
+                android:autofillHints="fullname"
+                android:hint="Full Name"
+                android:inputType="text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:background="@color/colorWhite">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:src="@drawable/ic_location" />
+
+            <EditText
+                android:id="@+id/activity_register_et_address"
+                style="@style/CodeFontRegular"
+                android:autofillHints="password"
+                android:hint="Address"
+                android:inputType="textPostalAddress" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:background="@color/colorWhite">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:src="@drawable/ic_phone" />
+
+            <EditText
+                android:id="@+id/activity_register_et_phone"
+                style="@style/CodeFontRegular"
+                android:autofillHints="password"
+                android:hint="Phone"
+                android:inputType="phone" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:background="@color/colorWhite">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:src="@drawable/ic_email" />
+
+            <EditText
+                android:id="@+id/activity_register_et_email"
+                style="@style/CodeFontRegular"
+                android:autofillHints="email"
+                android:hint="E-mail"
+                android:inputType="textEmailAddress" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:background="@color/colorWhite">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:src="@drawable/ic_lock" />
+
+            <EditText
+                android:id="@+id/activity_register_et_password"
+                style="@style/CodeFontRegular"
+                android:autofillHints="password"
+                android:hint="Password"
+                android:inputType="textPassword" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/activity_register_btn_register"
+            style="@style/CodeFontRegular"
+            android:layout_marginTop="12dp"
+            android:background="@color/colorWhite"
+            android:text="Register"
+            android:textColor="@color/colorPrimary" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TestActivity">
+
+    <TextView
+        android:id="@+id/activity_test_tv_fullname"
+        style="@style/CodeFontRegular" />
+
+    <TextView
+        android:id="@+id/activity_test_tv_email"
+        style="@style/CodeFontRegular" />
+
+    <TextView
+        android:id="@+id/activity_test_tv_username"
+        style="@style/CodeFontRegular" />
+
+    <TextView
+        android:id="@+id/activity_test_tv_address"
+        style="@style/CodeFontRegular" />
+
+    <TextView
+        android:id="@+id/activity_test_tv_phone"
+        style="@style/CodeFontRegular" />
+
+    <Button
+        android:id="@+id/activity_test_btn_signout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Out" />
+
+    <Button
+        android:id="@+id/activity_test_btn_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Account" />
+
+</LinearLayout>

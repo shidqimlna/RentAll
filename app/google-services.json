@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "60612966647",
+    "firebase_url": "https://rent-all-b8037-default-rtdb.firebaseio.com/",
+    "project_id": "rent-all-b8037",
+    "storage_bucket": "rent-all-b8037.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:60612966647:android:b58143d8141f50fccd3bf2",
+        "android_client_info": {
+          "package_name": "com.example.rentall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "60612966647-hsji3946uj03h6o8c4drkh24fh28j5e0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6B2xJRat5ruD_aCy-6NwT4Nx9BXonB3I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "60612966647-hsji3946uj03h6o8c4drkh24fh28j5e0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
