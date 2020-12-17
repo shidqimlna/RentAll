@@ -21,7 +21,6 @@ class NewProductActivity : AppCompatActivity() {
     private var filePath: Uri? = null
     private val PICK_IMAGE_REQUEST = 22
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var storage: FirebaseStorage
     private lateinit var storageReference: StorageReference
     private lateinit var username: String
 
@@ -29,8 +28,7 @@ class NewProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_product)
 
-        storage = FirebaseStorage.getInstance()
-        storageReference = storage.reference
+        storageReference = FirebaseStorage.getInstance().reference
         firebaseAuth = FirebaseAuth.getInstance()
         val userId = firebaseAuth.currentUser!!.uid
         val userRef: DatabaseReference =
@@ -50,14 +48,12 @@ class NewProductActivity : AppCompatActivity() {
         })
 
 
-        val productId = FirebaseDatabase.getInstance().reference.child("Product").push().key
+        val productId = FirebaseDatabase.getInstance().reference.child("Products").push().key
         val productRef =
-            FirebaseDatabase.getInstance().reference.child("Product").child(productId!!)
+            FirebaseDatabase.getInstance().reference.child("Products").child(productId!!)
         val userProductRef =
-            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Product")
+            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Products")
                 .child(productId)
-
-
 
         activity_new_product_btn_addimg.setOnClickListener {
             selectImage()
@@ -87,6 +83,7 @@ class NewProductActivity : AppCompatActivity() {
         productInfo["name"] = productName
         productInfo["price"] = price
         productInfo["desc"] = description
+        productInfo["image"] = storageReference.child("images/products/$productId").toString()
         productInfo["owner"] = username
         productRef.updateChildren(productInfo)
 
