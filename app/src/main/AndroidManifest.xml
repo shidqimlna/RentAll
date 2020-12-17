@@ -6,16 +6,17 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
+        <activity android:name=".NewProductActivity"></activity>
+        <activity android:name=".LandingActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".EditAccountActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".TestActivity" />
+        <activity android:name=".UserAccountActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

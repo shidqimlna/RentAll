@@ -4,38 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TestActivity">
+    tools:context=".UserAccountActivity">
 
     <TextView
-        android:id="@+id/activity_test_tv_fullname"
+        android:id="@+id/activity_user_acc_tv_fullname"
         style="@style/CodeFontRegular" />
 
     <TextView
-        android:id="@+id/activity_test_tv_email"
+        android:id="@+id/activity_user_acc_tv_email"
         style="@style/CodeFontRegular" />
 
     <TextView
-        android:id="@+id/activity_test_tv_username"
+        android:id="@+id/activity_user_acc_tv_address"
         style="@style/CodeFontRegular" />
 
     <TextView
-        android:id="@+id/activity_test_tv_address"
-        style="@style/CodeFontRegular" />
-
-    <TextView
-        android:id="@+id/activity_test_tv_phone"
+        android:id="@+id/activity_user_acc_tv_phone"
         style="@style/CodeFontRegular" />
 
     <Button
-        android:id="@+id/activity_test_btn_signout"
+        android:id="@+id/activity_user_acc_btn_signout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sign Out" />
 
     <Button
-        android:id="@+id/activity_test_btn_update"
+        android:id="@+id/activity_user_acc_btn_update"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Edit Account" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/activity_user_acc_fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add" />
 
 </LinearLayout>

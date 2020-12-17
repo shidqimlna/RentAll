@@ -25,7 +25,7 @@ class RegisterActivity : AppCompatActivity() {
         firebaseListener = AuthStateListener {
             val firebaseUser = FirebaseAuth.getInstance().currentUser
             if (firebaseUser != null) {
-                val intent = Intent(this@RegisterActivity, TestActivity::class.java)
+                val intent = Intent(this@RegisterActivity, UserAccountActivity::class.java)
                 startActivity(intent)
                 finish()
                 return@AuthStateListener

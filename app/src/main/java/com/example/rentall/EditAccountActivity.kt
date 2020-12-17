@@ -1,5 +1,6 @@
 package com.example.rentall
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -45,6 +46,10 @@ class EditAccountActivity : AppCompatActivity() {
             userInfo["phone"] = phone
             userInfo["address"] = address
             reference.updateChildren(userInfo)
+
+            val intent = Intent(this@EditAccountActivity, UserAccountActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 }
