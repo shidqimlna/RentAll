@@ -21,14 +21,15 @@ class NewProductActivity : AppCompatActivity() {
     private var filePath: Uri? = null
     private val PICK_IMAGE_REQUEST = 22
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var storageReference: StorageReference
+    private lateinit var productRef: DatabaseReference
+    private lateinit var userProductRef: DatabaseReference
+    private lateinit var productImageRef: StorageReference
     private lateinit var username: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_product)
 
-        storageReference = FirebaseStorage.getInstance().reference
         firebaseAuth = FirebaseAuth.getInstance()
         val userId = firebaseAuth.currentUser!!.uid
         val userRef: DatabaseReference =
@@ -47,21 +48,21 @@ class NewProductActivity : AppCompatActivity() {
             override fun onCancelled(databaseError: DatabaseError) {}
         })
 
-
         val productId = FirebaseDatabase.getInstance().reference.child("Products").push().key
-        val productRef =
-            FirebaseDatabase.getInstance().reference.child("Products").child(productId!!)
-        val userProductRef =
+        productRef = FirebaseDatabase.getInstance().reference.child("Products").child(productId!!)
+        userProductRef =
             FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Products")
                 .child(productId)
+        productImageRef =
+            FirebaseStorage.getInstance().reference.child("images/products/$productId")
 
         activity_new_product_btn_addimg.setOnClickListener {
             selectImage()
         }
 
         activity_new_product_btn_submit.setOnClickListener {
-            uploadData(productId, productRef, userProductRef)
-            uploadImage(productId)
+            uploadData(productId)
+            uploadImage()
 
             val intent = Intent(this@NewProductActivity, UserAccountActivity::class.java)
             startActivity(intent)
@@ -70,9 +71,7 @@ class NewProductActivity : AppCompatActivity() {
     }
 
     private fun uploadData(
-        productId: String,
-        productRef: DatabaseReference,
-        userProductRef: DatabaseReference
+        productId: String
     ) {
         val productName: String = activity_new_product_et_name.text.toString()
         val price: String = activity_new_product_et_price.text.toString()
@@ -83,8 +82,7 @@ class NewProductActivity : AppCompatActivity() {
         productInfo["name"] = productName
         productInfo["price"] = price
         productInfo["desc"] = description
-        productInfo["image"] =
-            storageReference.child("images/products/$productId").downloadUrl.toString()
+        productInfo["image"] = productImageRef.downloadUrl.toString()
         productInfo["owner"] = username
         productRef.updateChildren(productInfo)
 
@@ -93,137 +91,66 @@ class NewProductActivity : AppCompatActivity() {
         userProductRef.updateChildren(eventsInfo2)
     }
 
-    // Select Image method
     private fun selectImage() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(
-            Intent.createChooser(
-                intent,
-                "Select Image from here..."
-            ),
+            Intent.createChooser(intent, "Select Image from here..."),
             PICK_IMAGE_REQUEST
         )
     }
 
-    // Override onActivityResult method
-    override fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?
-    ) {
-        super.onActivityResult(
-            requestCode,
-            resultCode,
-            data
-        )
-
-        // checking request code and result code
-        // if request code is PICK_IMAGE_REQUEST and
-        // resultCode is RESULT_OK
-        // then set image in the image view
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
-
-            // Get the Uri of data
             filePath = data.data
             try {
-
-                // Setting image on image view using Bitmap
-                val bitmap = MediaStore.Images.Media
-                    .getBitmap(
-                        contentResolver,
-                        filePath
-                    )
+                val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, filePath)
                 activity_new_product_iv_productimg.setImageBitmap(bitmap)
             } catch (e: IOException) {
-                // Log the exception
                 e.printStackTrace()
             }
         }
     }
 
-    // UploadImage method
-    private fun uploadImage(productId: String) {
+    private fun uploadImage() {
         if (filePath != null) {
-
-            // Code for showing progressDialog while uploading
             val progressDialog = ProgressDialog(this)
             progressDialog.setTitle("Uploading...")
             progressDialog.show()
-
-            // Defining the child of storageReference
-            val ref = storageReference
-                .child(
-                    "images/products/"
-                            + productId
-                )
-
-            // adding listeners on upload
-            // or failure of image
-            ref.putFile(filePath!!)
-                ?.addOnSuccessListener { // Image uploaded successfully
+            productImageRef.putFile(filePath!!)
+                .addOnSuccessListener {
                     try {
-                        // Dismiss dialog
                         progressDialog.dismiss()
-                        Toast
-                            .makeText(
-                                this@NewProductActivity,
-                                "Data Uploaded!!",
-                                Toast.LENGTH_SHORT
-                            )
-                            .show()
+                        Toast.makeText(
+                            this@NewProductActivity,
+                            "Data Uploaded!!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } catch (e: Exception) {
-                        Toast
-                            .makeText(
-                                this@NewProductActivity,
-                                e.toString(),
-                                Toast.LENGTH_SHORT
-                            )
-                            .show()
+                        e.printStackTrace()
                     }
-
                 }
-                .addOnFailureListener { e -> // Error, Image not uploaded
+                .addOnFailureListener { e ->
                     try {
                         progressDialog.dismiss()
-                        Toast
-                            .makeText(
-                                this@NewProductActivity,
-                                "Failed " + e.message,
-                                Toast.LENGTH_SHORT
-                            )
-                            .show()
+                        Toast.makeText(
+                            this@NewProductActivity,
+                            "Failed " + e.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } catch (e: Exception) {
-                        Toast
-                            .makeText(
-                                this@NewProductActivity,
-                                e.toString(),
-                                Toast.LENGTH_SHORT
-                            )
-                            .show()
+                        e.printStackTrace()
                     }
                 }
                 .addOnProgressListener { taskSnapshot ->
                     try {
-
-                        // Progress Listener for loading
-                        // percentage on the dialog box
-                        val progress = (100.0
-                                * taskSnapshot.bytesTransferred
-                                / taskSnapshot.totalByteCount)
-                        progressDialog.setMessage(
-                            "Uploaded "
-                                    + progress.toInt() + "%"
-                        )
+                        val progress =
+                            (100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount)
+                        progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
                     } catch (e: Exception) {
-                        Toast
-                            .makeText(
-                                this@NewProductActivity,
-                                e.toString(),
-                                Toast.LENGTH_SHORT
-                            )
-                            .show()
+                        e.printStackTrace()
                     }
                 }
         }
