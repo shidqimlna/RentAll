@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditProductActivity"></activity>
+        <activity android:name=".EditProductActivity" />
         <activity android:name=".NewProductActivity" />
         <activity android:name=".LandingActivity" />
         <activity android:name=".RegisterActivity" />

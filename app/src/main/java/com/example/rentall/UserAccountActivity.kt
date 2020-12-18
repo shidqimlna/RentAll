@@ -46,18 +46,21 @@ class UserAccountActivity : AppCompatActivity() {
         userProductRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (dataSnapshot1 in dataSnapshot.children) {
-                    val productEntity: ProductEntity? = dataSnapshot1.getValue(ProductEntity::class.java)
-                    val productRef: Query = FirebaseDatabase.getInstance().reference.child("Products")
-                        .orderByChild("id")
-                        .equalTo(productEntity?.id)
+                    val productEntity: ProductEntity? =
+                        dataSnapshot1.getValue(ProductEntity::class.java)
+                    val productRef: Query =
+                        FirebaseDatabase.getInstance().reference.child("Products")
+                            .orderByChild("id")
+                            .equalTo(productEntity?.id)
                     productRef.addValueEventListener(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             if (dataSnapshot.exists()) {
                                 for (dataSnapshot2 in dataSnapshot.children) {
-                                    val userProduct: ProductEntity? = dataSnapshot2.getValue(ProductEntity::class.java)
+                                    val userProduct: ProductEntity? =
+                                        dataSnapshot2.getValue(ProductEntity::class.java)
                                     listUserProduct.add(userProduct)
                                 }
-                                userProductAdapter.setData(listUserProduct)
+                                userProductAdapter.userProductAdapter(listUserProduct)
                                 userProductAdapter.notifyDataSetChanged()
                             } else {
                                 val userProductIdRef = userProductRef.child(productEntity?.id!!)

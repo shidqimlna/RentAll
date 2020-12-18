@@ -5,18 +5,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.item_user_product.view.*
 
+
 class UserProductAdapter : RecyclerView.Adapter<UserProductAdapter.ListViewHolder>() {
-
+    //    private var context: Context? = null
     private val listProducts = ArrayList<ProductEntity?>()
+    private lateinit var storageReference: StorageReference
 
-    fun setData(entities: ArrayList<ProductEntity?>) {
+    fun userProductAdapter(entities: ArrayList<ProductEntity?>) {
+//        context = cont
         listProducts.clear()
         listProducts.addAll(entities)
         notifyDataSetChanged()
+        storageReference = FirebaseStorage.getInstance().reference
     }
+
+//    fun setData(entities: ArrayList<ProductEntity?>) {
+//        listProducts.clear()
+//        listProducts.addAll(entities)
+//        notifyDataSetChanged()
+//    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ListViewHolder =
         ListViewHolder(
@@ -37,13 +49,20 @@ class UserProductAdapter : RecyclerView.Adapter<UserProductAdapter.ListViewHolde
         fun bindView(productEntity: ProductEntity?) {
             productEntity?.let {
                 with(itemView) {
-//                    Glide.with(this /* context */)
+
+                    storageReference.child("images/products/${it.id}").downloadUrl.addOnSuccessListener { uri -> //tampilkan gambar dengan glide
+                        Glide.with(context)
+                            .load(uri)
+                            .into(item_user_product_iv_product)
+                    }.addOnFailureListener { }
+
+//                    Glide.with(context /* context */)
 //                        .using(FirebaseImageLoader())
 //                        .load(storageReference)
-//                        .into(imageView)
-                    Picasso.get().load(it.image).fit()
-//                        .placeholder(R.drawable.loading_decor).error(R.drawable.ic_imageerror)
-                        .into(item_user_product_iv_product)
+//                        .into(item_user_product_iv_product)
+//                    Picasso.get().load(it.image).fit()
+////                        .placeholder(R.drawable.loading_decor).error(R.drawable.ic_imageerror)
+//                        .into(item_user_product_iv_product)
                     item_user_product_tv_name.text = it.name
                     item_user_product_tv_price.text = it.price
                     item_user_product_tv_owner.text = it.owner

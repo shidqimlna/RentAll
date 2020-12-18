@@ -83,7 +83,8 @@ class NewProductActivity : AppCompatActivity() {
         productInfo["name"] = productName
         productInfo["price"] = price
         productInfo["desc"] = description
-        productInfo["image"] = storageReference.child("images/products/$productId").toString()
+        productInfo["image"] =
+            storageReference.child("images/products/$productId").downloadUrl.toString()
         productInfo["owner"] = username
         productRef.updateChildren(productInfo)
 
@@ -162,37 +163,68 @@ class NewProductActivity : AppCompatActivity() {
             // or failure of image
             ref.putFile(filePath!!)
                 ?.addOnSuccessListener { // Image uploaded successfully
-                    // Dismiss dialog
-                    progressDialog.dismiss()
-                    Toast
-                        .makeText(
-                            this@NewProductActivity,
-                            "Data Uploaded!!",
-                            Toast.LENGTH_SHORT
-                        )
-                        .show()
+                    try {
+                        // Dismiss dialog
+                        progressDialog.dismiss()
+                        Toast
+                            .makeText(
+                                this@NewProductActivity,
+                                "Data Uploaded!!",
+                                Toast.LENGTH_SHORT
+                            )
+                            .show()
+                    } catch (e: Exception) {
+                        Toast
+                            .makeText(
+                                this@NewProductActivity,
+                                e.toString(),
+                                Toast.LENGTH_SHORT
+                            )
+                            .show()
+                    }
+
                 }
-                ?.addOnFailureListener { e -> // Error, Image not uploaded
-                    progressDialog.dismiss()
-                    Toast
-                        .makeText(
-                            this@NewProductActivity,
-                            "Failed " + e.message,
-                            Toast.LENGTH_SHORT
-                        )
-                        .show()
+                .addOnFailureListener { e -> // Error, Image not uploaded
+                    try {
+                        progressDialog.dismiss()
+                        Toast
+                            .makeText(
+                                this@NewProductActivity,
+                                "Failed " + e.message,
+                                Toast.LENGTH_SHORT
+                            )
+                            .show()
+                    } catch (e: Exception) {
+                        Toast
+                            .makeText(
+                                this@NewProductActivity,
+                                e.toString(),
+                                Toast.LENGTH_SHORT
+                            )
+                            .show()
+                    }
                 }
                 .addOnProgressListener { taskSnapshot ->
+                    try {
 
-                    // Progress Listener for loading
-                    // percentage on the dialog box
-                    val progress = (100.0
-                            * taskSnapshot.bytesTransferred
-                            / taskSnapshot.totalByteCount)
-                    progressDialog.setMessage(
-                        "Uploaded "
-                                + progress.toInt() + "%"
-                    )
+                        // Progress Listener for loading
+                        // percentage on the dialog box
+                        val progress = (100.0
+                                * taskSnapshot.bytesTransferred
+                                / taskSnapshot.totalByteCount)
+                        progressDialog.setMessage(
+                            "Uploaded "
+                                    + progress.toInt() + "%"
+                        )
+                    } catch (e: Exception) {
+                        Toast
+                            .makeText(
+                                this@NewProductActivity,
+                                e.toString(),
+                                Toast.LENGTH_SHORT
+                            )
+                            .show()
+                    }
                 }
         }
     }
