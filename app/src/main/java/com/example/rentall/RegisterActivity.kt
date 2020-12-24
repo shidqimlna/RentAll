@@ -47,7 +47,7 @@ class RegisterActivity : AppCompatActivity() {
                         userInfo["address"] = address
                         reference.updateChildren(userInfo)
 
-                        val intent = Intent(this@RegisterActivity, UserAccountActivity::class.java)
+                        val intent = Intent(this@RegisterActivity, MainActivity::class.java)
                         startActivity(intent)
                         finish()
                     }

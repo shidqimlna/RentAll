@@ -22,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
         firebaseListener = AuthStateListener {
             val firebaseUser = FirebaseAuth.getInstance().currentUser
             if (firebaseUser != null) {
-                val intent = Intent(this@LoginActivity, UserAccountActivity::class.java)
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
                 startActivity(intent)
                 finish()
                 return@AuthStateListener
@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
 
             firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
                 if (!task.isSuccessful) {
-                    Toast.makeText(this@LoginActivity, "Login Gagal", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity, "Login Failed", Toast.LENGTH_SHORT).show()
                 }
             }
         }

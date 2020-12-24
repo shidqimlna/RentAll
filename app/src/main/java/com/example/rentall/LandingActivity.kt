@@ -21,7 +21,7 @@ class LandingActivity : AppCompatActivity() {
         firebaseListener = AuthStateListener {
             val firebaseUser = FirebaseAuth.getInstance().currentUser
             if (firebaseUser != null) {
-                val intent = Intent(this@LandingActivity, UserAccountActivity::class.java)
+                val intent = Intent(this@LandingActivity, MainActivity::class.java)
                 startActivity(intent)
                 finish()
                 return@AuthStateListener
