@@ -11,11 +11,11 @@ import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.item_product.view.*
 
 
-class UserProductAdapter : RecyclerView.Adapter<UserProductAdapter.ListViewHolder>() {
+class ProductAdapter : RecyclerView.Adapter<ProductAdapter.ListViewHolder>() {
     private val listProducts = ArrayList<ProductEntity?>()
     private lateinit var storageReference: StorageReference
 
-    fun userProductAdapter(entities: ArrayList<ProductEntity?>) {
+    fun productAdapter(entities: ArrayList<ProductEntity?>) {
         listProducts.clear()
         listProducts.addAll(entities)
         notifyDataSetChanged()
@@ -48,9 +48,10 @@ class UserProductAdapter : RecyclerView.Adapter<UserProductAdapter.ListViewHolde
                     }.addOnFailureListener {}
                     item_user_product_tv_name.text = it.name
                     item_user_product_tv_price.text = it.price
+                    item_user_product_tv_owner.text = it.owner
                     item_user_product_cardView.setOnClickListener {
-                        val intent = Intent(context, EditProductActivity::class.java)
-                        intent.putExtra(EditProductActivity.EXTRA_PRODUCT, productEntity.id)
+                        val intent = Intent(context, DetailProductActivity::class.java)
+                        intent.putExtra(DetailProductActivity.EXTRA_PRODUCT, productEntity.id)
                         context.startActivity(intent)
                     }
                 }

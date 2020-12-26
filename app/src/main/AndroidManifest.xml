@@ -11,9 +11,10 @@
         android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".EditProductActivity" />
         <activity android:name=".NewProductActivity" />
+        <activity android:name=".DetailProductActivity" />
         <activity android:name=".LandingActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".EditAccountActivity" />

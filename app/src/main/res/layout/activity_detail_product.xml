@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DetailProductActivity">
+
+    <ImageView
+        android:id="@+id/activity_detail_product_iv_productimg"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
+
+    <TextView
+        android:id="@+id/activity_detail_product_tv_name"
+        style="@style/CodeFontRegular" />
+
+    <TextView
+        android:id="@+id/activity_detail_product_tv_price"
+        style="@style/CodeFontRegular" />
+
+    <TextView
+        android:id="@+id/activity_detail_product_tv_owner"
+        style="@style/CodeFontRegular" />
+
+    <TextView
+        android:id="@+id/activity_detail_product_tv_desciption"
+        style="@style/CodeFontRegular" />
+
+    <Button
+        android:id="@+id/activity_detail_product_btn_chat"
+        style="@style/CodeFontRegular"
+        android:layout_marginTop="12dp"
+        android:text="Chat" />
+
+    <Button
+        android:id="@+id/activity_detail_product_btn_rent"
+        style="@style/CodeFontRegular"
+        android:layout_marginTop="12dp"
+        android:text="Rent" />
+
+</LinearLayout>

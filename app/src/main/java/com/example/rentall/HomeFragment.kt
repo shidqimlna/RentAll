@@ -14,8 +14,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
 
-    private var listUserProduct = ArrayList<ProductEntity?>()
-    private lateinit var userProductAdapter: UserProductAdapter
+    private lateinit var productAdapter: ProductAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +28,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
 
-            userProductAdapter = UserProductAdapter()
+            productAdapter = ProductAdapter()
 
             val firebaseAuth = FirebaseAuth.getInstance()
             val userId = firebaseAuth.currentUser!!.uid
@@ -63,13 +62,14 @@ class HomeFragment : Fragment() {
             with(fragment_home_rv) {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
-                adapter = userProductAdapter
+                adapter = productAdapter
             }
         }
     }
 
     private fun searchProduct() {
 
+        val listProduct = ArrayList<ProductEntity?>()
         val searchQuery = fragment_home_et_search.text.toString()
 
         val productQuery =
@@ -83,10 +83,10 @@ class HomeFragment : Fragment() {
                 for (dataSnapshot1 in dataSnapshot.children) {
                     val userProduct: ProductEntity? =
                         dataSnapshot1.getValue(ProductEntity::class.java)
-                    listUserProduct.add(userProduct)
+                    listProduct.add(userProduct)
                 }
-                userProductAdapter.userProductAdapter(listUserProduct)
-                userProductAdapter.notifyDataSetChanged()
+                productAdapter.productAdapter(listProduct)
+                productAdapter.notifyDataSetChanged()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

@@ -7,11 +7,11 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_edit_product.*
-import kotlinx.android.synthetic.main.activity_new_product.*
 import java.io.IOException
 
 
@@ -34,12 +34,18 @@ class EditProductActivity : AppCompatActivity() {
         productRef = FirebaseDatabase.getInstance().reference.child("Products").child(productId)
         productImageRef =
             FirebaseStorage.getInstance().reference.child("images/products/$productId")
+        val storageReference = FirebaseStorage.getInstance().reference
 
         productRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
                     val productEntity: ProductEntity? =
                         dataSnapshot.getValue(ProductEntity::class.java)
+                    storageReference.child("images/products/${productEntity?.id}").downloadUrl.addOnSuccessListener { uri ->
+                        Glide.with(applicationContext)
+                            .load(uri)
+                            .into(activity_edit_product_iv_productimg)
+                    }.addOnFailureListener {}
                     activity_edit_product_et_name.setText(productEntity?.name)
                     activity_edit_product_et_price.setText(productEntity?.price)
                     activity_edit_product_et_desciption.setText(productEntity?.desc)
