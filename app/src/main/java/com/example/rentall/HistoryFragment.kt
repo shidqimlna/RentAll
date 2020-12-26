@@ -27,8 +27,7 @@ class HistoryFragment : Fragment() {
 
             val rentHistoryAdapter = RentHistoryAdapter()
 
-            val firebaseAuth = FirebaseAuth.getInstance()
-            val userId = firebaseAuth.currentUser!!.uid
+            val userId = FirebaseAuth.getInstance().currentUser!!.uid
             val userRentRef: DatabaseReference =
                 FirebaseDatabase.getInstance().reference.child("Users")
                     .child(userId).child("Rents")

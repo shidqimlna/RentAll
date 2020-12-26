@@ -10,5 +10,6 @@ data class ProductEntity(
     val price: String? = null,
     val desc: String? = null,
     val owner: String? = null,
+    val ownerId: String? = null,
     var time: String? = null
 ) : Parcelable

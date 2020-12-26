@@ -23,15 +23,17 @@ class NewProductActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var productRef: DatabaseReference
     private lateinit var userProductRef: DatabaseReference
+    private lateinit var userChatRef: DatabaseReference
     private lateinit var productImageRef: StorageReference
     private lateinit var username: String
+    private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_product)
 
         firebaseAuth = FirebaseAuth.getInstance()
-        val userId = firebaseAuth.currentUser!!.uid
+        userId = firebaseAuth.currentUser!!.uid
         val userRef: DatabaseReference =
             FirebaseDatabase.getInstance().reference.child("Users")
                 .child(userId)
@@ -52,6 +54,9 @@ class NewProductActivity : AppCompatActivity() {
         productRef = FirebaseDatabase.getInstance().reference.child("Products").child(productId!!)
         userProductRef =
             FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Products")
+                .child(productId)
+        userChatRef =
+            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats")
                 .child(productId)
         productImageRef =
             FirebaseStorage.getInstance().reference.child("images/products/$productId")
@@ -82,13 +87,17 @@ class NewProductActivity : AppCompatActivity() {
         productInfo["name"] = productName
         productInfo["price"] = price
         productInfo["desc"] = description
-        productInfo["image"] = productImageRef.downloadUrl.toString()
         productInfo["owner"] = username
+        productInfo["ownerId"] = userId
         productRef.updateChildren(productInfo)
 
-        val eventsInfo2: MutableMap<String, Any> = HashMap()
-        eventsInfo2["id"] = productId
-        userProductRef.updateChildren(eventsInfo2)
+        val productInfo2: MutableMap<String, Any> = HashMap()
+        productInfo2["id"] = productId
+        userProductRef.updateChildren(productInfo2)
+
+        val productInfo3: MutableMap<String, Any> = HashMap()
+        productInfo3["id"] = productId
+        userChatRef.updateChildren(productInfo3)
     }
 
     private fun selectImage() {

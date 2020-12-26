@@ -15,7 +15,7 @@ import java.util.*
 class DetailProductActivity : AppCompatActivity() {
 
     private lateinit var userRentRef: DatabaseReference
-    private lateinit var username: String
+    private lateinit var userId: String
     private var productEntity: ProductEntity? = ProductEntity()
 
     companion object {
@@ -26,11 +26,7 @@ class DetailProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_product)
 
-        val firebaseAuth = FirebaseAuth.getInstance()
-        val userId = firebaseAuth.currentUser!!.uid
-        val userRef: DatabaseReference =
-            FirebaseDatabase.getInstance().reference.child("Users")
-                .child(userId)
+        userId = FirebaseAuth.getInstance().currentUser!!.uid
         val productId = intent.extras?.getString(EXTRA_PRODUCT) ?: ""
         val productRef = FirebaseDatabase.getInstance().reference.child("Products").child(productId)
         val rentId =
@@ -40,19 +36,6 @@ class DetailProductActivity : AppCompatActivity() {
             FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Rents")
                 .child(rentId!!)
         val storageReference = FirebaseStorage.getInstance().reference
-
-        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
-                    val map = dataSnapshot.value as Map<String, Any?>?
-                    if (map!!["fullname"] != null) {
-                        username = map["fullname"].toString()
-                    }
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
 
         productRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -74,28 +57,38 @@ class DetailProductActivity : AppCompatActivity() {
         })
 
         activity_detail_product_btn_chat.setOnClickListener {
-//            uploadData()
-//            uploadImage()
-//            val intent = Intent(this@DetailProductActivity, UserAccountActivity::class.java)
-//            startActivity(intent)
-//            finish()
+            chatOwner()
+            val intent = Intent(this@DetailProductActivity, ChatActivity::class.java)
+            intent.putExtra(ChatActivity.EXTRA_PRODUCT, productEntity?.id)
+            startActivity(intent)
+            finish()
         }
 
         activity_detail_product_btn_rent.setOnClickListener {
-            if (username != productEntity?.owner) {
+            if (userId != productEntity?.ownerId) {
                 rentProduct()
                 val intent = Intent(this@DetailProductActivity, MainActivity::class.java)
                 startActivity(intent)
+                finish()
             }
         }
     }
 
     private fun rentProduct() {
-        val eventsInfo: MutableMap<String, Any> = HashMap()
-        eventsInfo["id"] = productEntity?.id as String
-        eventsInfo["time"] =
+        val productInfo: MutableMap<String, Any> = HashMap()
+        productInfo["id"] = productEntity?.id as String
+        productInfo["time"] =
             SimpleDateFormat("MMM dd, yyyy 'at' hh:mm:ss a").format(Calendar.getInstance().time)
-        userRentRef.updateChildren(eventsInfo)
+        userRentRef.updateChildren(productInfo)
+    }
+
+    private fun chatOwner() {
+        val productInfo: MutableMap<String, Any> = HashMap()
+        productInfo["id"] = productEntity?.id as String
+        val userChatRef =
+            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats")
+                .child(productEntity?.id as String)
+        userChatRef.updateChildren(productInfo)
     }
 
 }
