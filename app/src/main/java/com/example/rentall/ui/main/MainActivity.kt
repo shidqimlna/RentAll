@@ -1,9 +1,12 @@
-package com.example.rentall
+package com.example.rentall.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.example.rentall.R
+import com.example.rentall.ui.chat.ChatFragment
+import com.example.rentall.ui.history.HistoryFragment
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import kotlinx.android.synthetic.main.activity_main.*
 

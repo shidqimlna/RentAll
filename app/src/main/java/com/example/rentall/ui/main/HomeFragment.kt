@@ -1,4 +1,4 @@
-package com.example.rentall
+package com.example.rentall.ui.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.rentall.R
+import com.example.rentall.di.Injection
+import com.example.rentall.ui.account.UserAccountActivity
+import com.example.rentall.ui.product.ProductAdapter
+import com.example.rentall.viewmodel.ProductViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -15,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : Fragment() {
 
     private lateinit var productAdapter: ProductAdapter
+    private lateinit var viewModel: ProductViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,6 +36,17 @@ class HomeFragment : Fragment() {
         if (activity != null) {
 
             productAdapter = ProductAdapter()
+
+            viewModel = ViewModelProvider(
+                this,
+                Injection.provideViewModelFactory()
+            )[ProductViewModel::class.java]
+
+//            viewModel.setQuery(query)
+//            viewModel.getProductList().observe(this, { products ->
+//                productAdapter.setData(products)
+//                productAdapter.notifyDataSetChanged()
+//            })
 
             val firebaseAuth = FirebaseAuth.getInstance()
             val userId = firebaseAuth.currentUser!!.uid
@@ -47,6 +65,7 @@ class HomeFragment : Fragment() {
 
                 override fun onCancelled(databaseError: DatabaseError) {}
             })
+
 
             searchProduct()
 
@@ -68,31 +87,35 @@ class HomeFragment : Fragment() {
     }
 
     private fun searchProduct() {
-
-        val listProduct = ArrayList<ProductEntity?>()
+//        val listProduct = ArrayList<ProductEntity?>()
         val searchQuery = fragment_home_et_search.text.toString()
 
-        val productQuery =
-            FirebaseDatabase.getInstance().reference.child("Products")
-                .orderByChild("name")
-                .startAt(searchQuery)
-                .endAt(searchQuery + "\uf8ff")
-
-        productQuery.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (dataSnapshot1 in dataSnapshot.children) {
-                    val userProduct: ProductEntity? =
-                        dataSnapshot1.getValue(ProductEntity::class.java)
-                    listProduct.add(userProduct)
-                }
-                productAdapter.productAdapter(listProduct)
-                productAdapter.notifyDataSetChanged()
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-            }
+        viewModel.setQuery(searchQuery)
+        viewModel.getProductList().observe(this, { products ->
+            productAdapter.setData(products)
+            productAdapter.notifyDataSetChanged()
         })
 
-    }
+//        val productQuery =
+//            FirebaseDatabase.getInstance().reference.child("Products")
+//                .orderByChild("name")
+//                .startAt(searchQuery)
+//                .endAt(searchQuery + "\uf8ff")
+//
+//        productQuery.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                for (dataSnapshot1 in dataSnapshot.children) {
+//                    val userProduct: ProductEntity? =
+//                        dataSnapshot1.getValue(ProductEntity::class.java)
+//                    listProduct.add(userProduct)
+//                }
+//                productAdapter.productAdapter(listProduct)
+//                productAdapter.notifyDataSetChanged()
+//            }
+//
+//            override fun onCancelled(databaseError: DatabaseError) {
+//            }
+//        })
 
+    }
 }

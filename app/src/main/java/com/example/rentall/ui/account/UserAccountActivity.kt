@@ -1,9 +1,14 @@
-package com.example.rentall
+package com.example.rentall.ui.account
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.rentall.R
+import com.example.rentall.data.entity.ProductEntity
+import com.example.rentall.ui.product.NewProductActivity
+import com.example.rentall.ui.product.UserProductAdapter
+import com.example.rentall.ui.splash.LandingActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_user_account.*

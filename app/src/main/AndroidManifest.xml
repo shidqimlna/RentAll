@@ -11,17 +11,17 @@
         android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChatActivity"></activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".EditProductActivity" />
-        <activity android:name=".NewProductActivity" />
-        <activity android:name=".DetailProductActivity" />
-        <activity android:name=".LandingActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".EditAccountActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".UserAccountActivity" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".ui.chat.ChatActivity"></activity>
+        <activity android:name=".ui.main.MainActivity" />
+        <activity android:name=".ui.product.EditProductActivity" />
+        <activity android:name=".ui.product.NewProductActivity" />
+        <activity android:name=".ui.product.DetailProductActivity" />
+        <activity android:name=".ui.splash.LandingActivity" />
+        <activity android:name=".ui.splash.RegisterActivity" />
+        <activity android:name=".ui.account.EditAccountActivity" />
+        <activity android:name=".ui.splash.LoginActivity" />
+        <activity android:name=".ui.account.UserAccountActivity" />
+        <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

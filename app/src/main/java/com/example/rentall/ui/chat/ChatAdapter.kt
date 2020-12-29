@@ -1,4 +1,4 @@
-package com.example.rentall
+package com.example.rentall.ui.chat
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.rentall.R
+import com.example.rentall.data.entity.ProductEntity
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.item_product.view.*
@@ -13,13 +15,13 @@ import kotlinx.android.synthetic.main.item_product.view.*
 
 class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ListViewHolder>() {
     private val listProducts = ArrayList<ProductEntity?>()
-    private lateinit var storageReference: StorageReference
+    private val storageReference: StorageReference = FirebaseStorage.getInstance().reference
 
     fun chatAdapter(entities: ArrayList<ProductEntity?>) {
         listProducts.clear()
         listProducts.addAll(entities)
         notifyDataSetChanged()
-        storageReference = FirebaseStorage.getInstance().reference
+//        storageReference = FirebaseStorage.getInstance().reference
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ListViewHolder =

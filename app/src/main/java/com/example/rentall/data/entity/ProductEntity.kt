@@ -1,4 +1,4 @@
-package com.example.rentall
+package com.example.rentall.data.entity
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

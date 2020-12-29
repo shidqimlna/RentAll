@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".NewProductActivity">
+    tools:context=".ui.product.NewProductActivity">
 
     <ImageView
         android:id="@+id/activity_new_product_iv_productimg"

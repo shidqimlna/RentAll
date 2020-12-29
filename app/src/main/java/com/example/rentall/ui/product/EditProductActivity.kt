@@ -1,4 +1,4 @@
-package com.example.rentall
+package com.example.rentall.ui.product
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -7,97 +7,86 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
+import com.bumptech.glide.Glide
+import com.example.rentall.R
+import com.example.rentall.data.entity.ProductEntity
+import com.example.rentall.ui.account.UserAccountActivity
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import kotlinx.android.synthetic.main.activity_new_product.*
+import kotlinx.android.synthetic.main.activity_edit_product.*
 import java.io.IOException
-import java.util.*
 
 
-class NewProductActivity : AppCompatActivity() {
+class EditProductActivity : AppCompatActivity() {
 
-    private var filePath: Uri? = null
     private val PICK_IMAGE_REQUEST = 22
-    private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var productRef: DatabaseReference
-    private lateinit var userProductRef: DatabaseReference
-    private lateinit var userChatRef: DatabaseReference
+    private var filePath: Uri? = null
     private lateinit var productImageRef: StorageReference
-    private lateinit var username: String
-    private lateinit var userId: String
+    private lateinit var productRef: DatabaseReference
+
+    companion object {
+        const val EXTRA_PRODUCT = "extra_product"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_product)
+        setContentView(R.layout.activity_edit_product)
 
-        firebaseAuth = FirebaseAuth.getInstance()
-        userId = firebaseAuth.currentUser!!.uid
-        val userRef: DatabaseReference =
-            FirebaseDatabase.getInstance().reference.child("Users")
-                .child(userId)
-        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+        val productId = intent.extras?.getString(EXTRA_PRODUCT) ?: ""
+        productRef = FirebaseDatabase.getInstance().reference.child("Products").child(productId)
+        productImageRef =
+            FirebaseStorage.getInstance().reference.child("images/products/$productId")
+        val storageReference = FirebaseStorage.getInstance().reference
+
+        productRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
-                    val map = dataSnapshot.value as Map<String, Any?>?
-                    if (map!!["fullname"] != null) {
-                        username = map["fullname"].toString()
-                    }
+                    val productEntity: ProductEntity? =
+                        dataSnapshot.getValue(ProductEntity::class.java)
+                    storageReference.child("images/products/${productEntity?.id}").downloadUrl.addOnSuccessListener { uri ->
+                        Glide.with(applicationContext)
+                            .load(uri)
+                            .into(activity_edit_product_iv_productimg)
+                    }.addOnFailureListener {}
+                    activity_edit_product_et_name.setText(productEntity?.name)
+                    activity_edit_product_et_price.setText(productEntity?.price)
+                    activity_edit_product_et_desciption.setText(productEntity?.desc)
                 }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
 
-        val productId = FirebaseDatabase.getInstance().reference.child("Products").push().key
-        productRef = FirebaseDatabase.getInstance().reference.child("Products").child(productId!!)
-        userProductRef =
-            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Products")
-                .child(productId)
-        userChatRef =
-            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats")
-                .child(productId)
-        productImageRef =
-            FirebaseStorage.getInstance().reference.child("images/products/$productId")
-
-        activity_new_product_btn_addimg.setOnClickListener {
+        activity_edit_product_btn_addimg.setOnClickListener {
             selectImage()
         }
 
-        activity_new_product_btn_submit.setOnClickListener {
-            uploadData(productId)
+        activity_edit_product_btn_submit.setOnClickListener {
+            uploadData()
             uploadImage()
-
-            val intent = Intent(this@NewProductActivity, UserAccountActivity::class.java)
+            val intent = Intent(this@EditProductActivity, UserAccountActivity::class.java)
             startActivity(intent)
             finish()
         }
+
+        activity_edit_product_btn_delete.setOnClickListener{
+            productRef.removeValue()
+            productImageRef.delete()
+                    val move = Intent(this@EditProductActivity, UserAccountActivity::class.java)
+                    startActivity(move)
+        }
     }
 
-    private fun uploadData(
-        productId: String
-    ) {
-        val productName: String = activity_new_product_et_name.text.toString()
-        val price: String = activity_new_product_et_price.text.toString()
-        val description: String = activity_new_product_et_desciption.text.toString()
-
-        val productInfo: MutableMap<String, Any> = HashMap()
-        productInfo["id"] = productId
+    private fun uploadData() {
+        val productName: String = activity_edit_product_et_name.text.toString()
+        val price: String = activity_edit_product_et_price.text.toString()
+        val description: String = activity_edit_product_et_desciption.text.toString()
+        val productInfo: MutableMap<String, Any> = java.util.HashMap()
         productInfo["name"] = productName
         productInfo["price"] = price
         productInfo["desc"] = description
-        productInfo["owner"] = username
-        productInfo["ownerId"] = userId
         productRef.updateChildren(productInfo)
-
-        val productInfo2: MutableMap<String, Any> = HashMap()
-        productInfo2["id"] = productId
-        userProductRef.updateChildren(productInfo2)
-
-        val productInfo3: MutableMap<String, Any> = HashMap()
-        productInfo3["id"] = productId
-        userChatRef.updateChildren(productInfo3)
     }
 
     private fun selectImage() {
@@ -116,7 +105,7 @@ class NewProductActivity : AppCompatActivity() {
             filePath = data.data
             try {
                 val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, filePath)
-                activity_new_product_iv_productimg.setImageBitmap(bitmap)
+                activity_edit_product_iv_productimg.setImageBitmap(bitmap)
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -133,7 +122,7 @@ class NewProductActivity : AppCompatActivity() {
                     try {
                         progressDialog.dismiss()
                         Toast.makeText(
-                            this@NewProductActivity,
+                            this@EditProductActivity,
                             "Data Uploaded!!",
                             Toast.LENGTH_SHORT
                         ).show()
@@ -145,7 +134,7 @@ class NewProductActivity : AppCompatActivity() {
                     try {
                         progressDialog.dismiss()
                         Toast.makeText(
-                            this@NewProductActivity,
+                            this@EditProductActivity,
                             "Failed " + e.message,
                             Toast.LENGTH_SHORT
                         ).show()

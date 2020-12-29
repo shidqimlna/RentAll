@@ -1,4 +1,4 @@
-package com.example.rentall
+package com.example.rentall.ui.chat
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -6,6 +6,8 @@ import android.widget.ScrollView
 import android.widget.Toast
 import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
+import com.example.rentall.R
+import com.example.rentall.data.entity.ProductEntity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_chat.*
@@ -19,6 +21,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var userName: String
     private lateinit var chatRef: DatabaseReference
 
+
     companion object {
         const val EXTRA_PRODUCT = "extra_product"
     }
@@ -27,7 +30,22 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        val productId = intent.extras?.getString(DetailProductActivity.EXTRA_PRODUCT) ?: ""
+//        viewModel = ViewModelProvider(
+//            this,
+//            Injection.provideViewModelFactory(this)
+//        )[ChatViewModel::class.java]
+
+        val extras = intent.extras
+        if (extras != null) {
+            val productId = intent.extras?.getString(EXTRA_PRODUCT) ?: ""
+//            viewModel.setProductId(productId)
+//            viewModel.getMovieDetail().observe(this, { movie ->
+//                activity_detail_movie_progressBar_layout.visibility = View.GONE
+//                loadData(movie)
+//            })
+        }
+
+        val productId = intent.extras?.getString(EXTRA_PRODUCT) ?: ""
         chatRef = FirebaseDatabase.getInstance().reference.child("Chats").child(productId)
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
         val userRef: DatabaseReference =

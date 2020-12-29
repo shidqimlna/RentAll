@@ -1,4 +1,4 @@
-package com.example.rentall
+package com.example.rentall.ui.product
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -6,16 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.rentall.R
+import com.example.rentall.data.entity.ProductEntity
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.item_product.view.*
 
 
-class ProductAdapter : RecyclerView.Adapter<ProductAdapter.ListViewHolder>() {
+class UserProductAdapter : RecyclerView.Adapter<UserProductAdapter.ListViewHolder>() {
     private val listProducts = ArrayList<ProductEntity?>()
     private lateinit var storageReference: StorageReference
 
-    fun productAdapter(entities: ArrayList<ProductEntity?>) {
+    fun userProductAdapter(entities: ArrayList<ProductEntity?>) {
         listProducts.clear()
         listProducts.addAll(entities)
         notifyDataSetChanged()
@@ -48,10 +50,9 @@ class ProductAdapter : RecyclerView.Adapter<ProductAdapter.ListViewHolder>() {
                     }.addOnFailureListener {}
                     item_user_product_tv_name.text = it.name
                     item_user_product_tv_price.text = it.price
-                    item_user_product_tv_owner.text = it.owner
                     item_user_product_cardView.setOnClickListener {
-                        val intent = Intent(context, DetailProductActivity::class.java)
-                        intent.putExtra(DetailProductActivity.EXTRA_PRODUCT, productEntity.id)
+                        val intent = Intent(context, EditProductActivity::class.java)
+                        intent.putExtra(EditProductActivity.EXTRA_PRODUCT, productEntity.id)
                         context.startActivity(intent)
                     }
                 }
