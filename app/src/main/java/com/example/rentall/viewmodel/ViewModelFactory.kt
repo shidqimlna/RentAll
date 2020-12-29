@@ -13,8 +13,8 @@ class ViewModelFactory constructor(private val repository: MainRepository) :
 //                isAssignableFrom(ChatViewModel::class.java) -> {
 //                    ChatViewModel(repository) as T
 //                }
-                isAssignableFrom(ProductViewModel::class.java) -> {
-                    ProductViewModel(repository) as T
+                isAssignableFrom(MainViewModel::class.java) -> {
+                    MainViewModel(repository) as T
                 }
 //                isAssignableFrom(FavoriteViewModel::class.java) -> {
 //                    FavoriteViewModel(repository) as T

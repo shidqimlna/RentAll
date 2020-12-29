@@ -17,9 +17,9 @@
         <activity android:name=".ui.product.NewProductActivity" />
         <activity android:name=".ui.product.DetailProductActivity" />
         <activity android:name=".ui.splash.LandingActivity" />
-        <activity android:name=".ui.splash.RegisterActivity" />
+        <activity android:name=".ui.account.RegisterActivity" />
         <activity android:name=".ui.account.EditAccountActivity" />
-        <activity android:name=".ui.splash.LoginActivity" />
+        <activity android:name=".ui.account.LoginActivity" />
         <activity android:name=".ui.account.UserAccountActivity" />
         <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>

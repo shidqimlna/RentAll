@@ -1,6 +1,8 @@
 package com.example.rentall.data.firebase
 
 import com.example.rentall.data.entity.ProductEntity
+import com.example.rentall.data.entity.UserEntity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -17,6 +19,26 @@ class RemoteDataSource {
             }
     }
 
+    fun getUserDetail(callback: LoadUserDetailCallback) {
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+        val userRef = FirebaseDatabase.getInstance().reference.child("Users")
+            .child(userId)
+        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                try {
+                    if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
+                        val userDetail: UserEntity? = dataSnapshot.getValue(UserEntity::class.java)
+                        callback.onUserDetailReceived(userDetail)
+                    }
+                } catch (e: Exception) {
+                    throw Exception(e.message.toString())
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
     fun getProductList(searchQuery: String?, callback: LoadProductsCallback) {
         val listProduct: MutableList<ProductEntity?> = mutableListOf()
         val productRef = FirebaseDatabase.getInstance().reference.child("Products")
@@ -26,9 +48,9 @@ class RemoteDataSource {
         productRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 try {
-                    for (dataSnapshot1 in dataSnapshot.children) {
+                    for (dataSnapshot in dataSnapshot.children) {
                         val userProduct: ProductEntity? =
-                            dataSnapshot1.getValue(ProductEntity::class.java)
+                            dataSnapshot.getValue(ProductEntity::class.java)
                         listProduct.add(userProduct)
                     }
                     callback.onAllProductsReceived(listProduct)
@@ -43,6 +65,10 @@ class RemoteDataSource {
 
     interface LoadProductsCallback {
         fun onAllProductsReceived(productResponse: List<ProductEntity?>)
+    }
+
+    interface LoadUserDetailCallback {
+        fun onUserDetailReceived(userResponse: UserEntity?)
     }
 }
 

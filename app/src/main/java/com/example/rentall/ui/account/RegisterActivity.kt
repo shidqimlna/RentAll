@@ -1,4 +1,4 @@
-package com.example.rentall.ui.splash
+package com.example.rentall.ui.account
 
 import android.content.Intent
 import android.os.Bundle
@@ -43,6 +43,7 @@ class RegisterActivity : AppCompatActivity() {
                             FirebaseDatabase.getInstance().reference.child("Users")
                                 .child(userId)
                         val userInfo: MutableMap<String, Any> = HashMap()
+                        userInfo["id"] = userId
                         userInfo["email"] = email
                         userInfo["fullname"] = fullname
                         userInfo["phone"] = phone

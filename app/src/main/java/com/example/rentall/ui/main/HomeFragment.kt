@@ -12,16 +12,14 @@ import com.example.rentall.R
 import com.example.rentall.di.Injection
 import com.example.rentall.ui.account.UserAccountActivity
 import com.example.rentall.ui.product.ProductAdapter
-import com.example.rentall.viewmodel.ProductViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.example.rentall.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class HomeFragment : Fragment() {
 
     private lateinit var productAdapter: ProductAdapter
-    private lateinit var viewModel: ProductViewModel
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,32 +38,11 @@ class HomeFragment : Fragment() {
             viewModel = ViewModelProvider(
                 this,
                 Injection.provideViewModelFactory()
-            )[ProductViewModel::class.java]
+            )[MainViewModel::class.java]
 
-//            viewModel.setQuery(query)
-//            viewModel.getProductList().observe(this, { products ->
-//                productAdapter.setData(products)
-//                productAdapter.notifyDataSetChanged()
-//            })
-
-            val firebaseAuth = FirebaseAuth.getInstance()
-            val userId = firebaseAuth.currentUser!!.uid
-            val userRef: DatabaseReference =
-                FirebaseDatabase.getInstance().reference.child("Users")
-                    .child(userId)
-            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
-                        val map = dataSnapshot.value as Map<String, Any?>?
-                        if (map!!["fullname"] != null) {
-                            fragment_home_tv_username.text = map["fullname"].toString()
-                        }
-                    }
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {}
+            viewModel.getUserDetail().observe(this, { user ->
+                fragment_home_tv_username.text = user?.fullname
             })
-
 
             searchProduct()
 
@@ -87,35 +64,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun searchProduct() {
-//        val listProduct = ArrayList<ProductEntity?>()
         val searchQuery = fragment_home_et_search.text.toString()
-
         viewModel.setQuery(searchQuery)
         viewModel.getProductList().observe(this, { products ->
             productAdapter.setData(products)
             productAdapter.notifyDataSetChanged()
         })
-
-//        val productQuery =
-//            FirebaseDatabase.getInstance().reference.child("Products")
-//                .orderByChild("name")
-//                .startAt(searchQuery)
-//                .endAt(searchQuery + "\uf8ff")
-//
-//        productQuery.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                for (dataSnapshot1 in dataSnapshot.children) {
-//                    val userProduct: ProductEntity? =
-//                        dataSnapshot1.getValue(ProductEntity::class.java)
-//                    listProduct.add(userProduct)
-//                }
-//                productAdapter.productAdapter(listProduct)
-//                productAdapter.notifyDataSetChanged()
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {
-//            }
-//        })
-
     }
 }

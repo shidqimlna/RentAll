@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rentall.R
+import com.example.rentall.ui.account.LoginActivity
+import com.example.rentall.ui.account.RegisterActivity
 import com.example.rentall.ui.main.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener

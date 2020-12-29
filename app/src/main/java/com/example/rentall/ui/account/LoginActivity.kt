@@ -1,4 +1,4 @@
-package com.example.rentall.ui.splash
+package com.example.rentall.ui.account
 
 import android.content.Intent
 import android.os.Bundle
