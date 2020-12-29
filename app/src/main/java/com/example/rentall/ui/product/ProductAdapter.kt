@@ -1,7 +1,6 @@
 package com.example.rentall.ui.product
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +20,6 @@ class ProductAdapter : RecyclerView.Adapter<ProductAdapter.ListViewHolder>() {
     fun setData(entities: Collection<ProductEntity?>) {
         listProducts.clear()
         listProducts.addAll(entities)
-//        Log.e("PA SD", listProducts[0]?.name.toString())
         notifyDataSetChanged()
         storageReference = FirebaseStorage.getInstance().reference
     }
@@ -50,7 +48,6 @@ class ProductAdapter : RecyclerView.Adapter<ProductAdapter.ListViewHolder>() {
                             .load(uri)
                             .into(item_user_product_iv_product)
                     }.addOnFailureListener {}
-                    Log.e("PA LVH", productEntity.name.toString())
                     item_user_product_tv_name.text = it.name
                     item_user_product_tv_price.text = it.price
                     item_user_product_tv_owner.text = it.owner
