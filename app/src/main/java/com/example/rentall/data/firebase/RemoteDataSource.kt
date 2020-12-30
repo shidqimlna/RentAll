@@ -1,26 +1,20 @@
 package com.example.rentall.data.firebase
 
-import android.app.ProgressDialog
-import android.content.Context
-import android.content.Intent
 import android.net.Uri
-import android.util.Log
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import com.example.rentall.data.entity.ProductEntity
 import com.example.rentall.data.entity.UserEntity
-import com.example.rentall.ui.account.UserAccountActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import java.text.SimpleDateFormat
 import java.util.*
 
 class RemoteDataSource {
 
-    val userId = FirebaseAuth.getInstance().currentUser!!.uid
+    private val userId = FirebaseAuth.getInstance().currentUser!!.uid
 
     companion object {
         @Volatile
@@ -74,7 +68,30 @@ class RemoteDataSource {
         })
     }
 
-    fun addProduct(productEntity: ProductEntity?, filePath: Uri?, context: Context) {
+    fun rentProduct(productEntity: ProductEntity?) {
+        val rentId =
+            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Rents")
+                .push().key
+        val userRentRef =
+            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Rents")
+                .child(rentId!!)
+        val productInfo: MutableMap<String, Any> = HashMap()
+        productInfo["id"] = productEntity?.id as String
+        productInfo["time"] =
+            SimpleDateFormat("MMM dd, yyyy 'at' hh:mm:ss a").format(Calendar.getInstance().time)
+        userRentRef.updateChildren(productInfo)
+    }
+
+    fun chatOwner(productEntity: ProductEntity?) {
+        val productInfo: MutableMap<String, Any> = HashMap()
+        productInfo["id"] = productEntity?.id as String
+        val userChatRef =
+            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats")
+                .child(productEntity.id as String)
+        userChatRef.updateChildren(productInfo)
+    }
+
+    fun addProduct(productEntity: ProductEntity?, filePath: Uri?) {
         val productId = FirebaseDatabase.getInstance().reference.child("Products").push().key
         val productRef =
             FirebaseDatabase.getInstance().reference.child("Products").child(productId!!)
@@ -87,15 +104,12 @@ class RemoteDataSource {
         val productImageRef =
             FirebaseStorage.getInstance().reference.child("images/products/$productId")
 
-        Log.e("RDS", productEntity?.name.toString())
-
         val productInfo: MutableMap<String, Any> = HashMap()
         productInfo["id"] = productId
         productInfo["name"] = productEntity?.name.toString()
         productInfo["price"] = productEntity?.price.toString()
         productInfo["desc"] = productEntity?.desc.toString()
         productInfo["owner"] = productEntity?.owner.toString()
-        productInfo["ownerId"] = userId
         productRef.updateChildren(productInfo)
 
         val productInfo2: MutableMap<String, Any> = HashMap()
@@ -106,40 +120,7 @@ class RemoteDataSource {
         productInfo3["id"] = productId
         userChatRef.updateChildren(productInfo3)
 
-        if (filePath != null) {
-            val progressDialog = ProgressDialog(context)
-            progressDialog.setTitle("Uploading...")
-            progressDialog.show()
-            productImageRef.putFile(filePath).addOnSuccessListener {
-                try {
-                    progressDialog.dismiss()
-                    Toast.makeText(context, "Data Uploaded!!", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(context, UserAccountActivity::class.java)
-                    startActivity(context, intent, null)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-                .addOnFailureListener { e ->
-                    try {
-                        progressDialog.dismiss()
-                        Toast.makeText(context, "Failed " + e.message, Toast.LENGTH_SHORT).show()
-                        val intent = Intent(context, UserAccountActivity::class.java)
-                        startActivity(context, intent, null)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-                .addOnProgressListener { taskSnapshot ->
-                    try {
-                        val progress =
-                            (100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount)
-                        progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-        }
+        if (filePath != null) productImageRef.putFile(filePath)
     }
 
     interface LoadProductsCallback {
@@ -149,6 +130,7 @@ class RemoteDataSource {
     interface LoadUserDetailCallback {
         fun onUserDetailReceived(userResponse: UserEntity?)
     }
+
 }
 
 

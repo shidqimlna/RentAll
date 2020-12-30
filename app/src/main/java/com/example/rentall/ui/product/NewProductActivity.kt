@@ -9,19 +9,16 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.rentall.R
 import com.example.rentall.data.entity.ProductEntity
 import com.example.rentall.di.Injection
+import com.example.rentall.ui.account.UserAccountActivity
 import com.example.rentall.util.Helper.PICK_IMAGE_REQUEST
 import com.example.rentall.util.Helper.selectImage
 import com.example.rentall.viewmodel.MainViewModel
-import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_new_product.*
 import java.io.IOException
-
 
 class NewProductActivity : AppCompatActivity() {
 
     private var filePath: Uri? = null
-    private lateinit var productImageRef: StorageReference
-
     private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +45,13 @@ class NewProductActivity : AppCompatActivity() {
             productEntity?.name = activity_new_product_et_name.text.toString()
             productEntity?.price = activity_new_product_et_price.text.toString()
             productEntity?.desc = activity_new_product_et_desciption.text.toString()
-            viewModel.addProduct(productEntity, filePath, this)
+            viewModel.getUserDetail().observe(this, { user ->
+                productEntity?.owner = user?.fullname!!
+                viewModel.addProduct(productEntity, filePath)
+                val intent = Intent(this, UserAccountActivity::class.java)
+                startActivity(intent)
+                finish()
+            })
         }
     }
 

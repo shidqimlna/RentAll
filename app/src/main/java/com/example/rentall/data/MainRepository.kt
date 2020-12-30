@@ -1,6 +1,5 @@
 package com.example.rentall.data
 
-import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -43,8 +42,16 @@ class MainRepository constructor(private val remoteDataSource: RemoteDataSource)
         return productResult
     }
 
-    override fun addProduct(productEntity: ProductEntity?, filePath: Uri?, context: Context) {
-        remoteDataSource.addProduct(productEntity, filePath, context)
+    override fun addProduct(productEntity: ProductEntity?, filePath: Uri?) {
+        remoteDataSource.addProduct(productEntity, filePath)
+    }
+
+    override fun rentProduct(productEntity: ProductEntity?) {
+        remoteDataSource.rentProduct(productEntity)
+    }
+
+    override fun chatOwner(productEntity: ProductEntity?) {
+        remoteDataSource.chatOwner(productEntity)
     }
 
 }

@@ -3,24 +3,24 @@ package com.example.rentall.ui.product
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.rentall.R
 import com.example.rentall.data.entity.ProductEntity
+import com.example.rentall.di.Injection
 import com.example.rentall.ui.chat.ChatActivity
 import com.example.rentall.ui.main.MainActivity
-import com.google.firebase.auth.FirebaseAuth
+import com.example.rentall.viewmodel.MainViewModel
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_detail_product.*
-import kotlinx.android.synthetic.main.item_rent_history.view.*
-import java.text.SimpleDateFormat
 import java.util.*
 
 class DetailProductActivity : AppCompatActivity() {
 
-    private lateinit var userRentRef: DatabaseReference
-    private lateinit var userId: String
+    private lateinit var username: String
     private var productEntity: ProductEntity? = ProductEntity()
+    private lateinit var viewModel: MainViewModel
 
     companion object {
         const val EXTRA_PRODUCT = "extra_product"
@@ -30,38 +30,19 @@ class DetailProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_product)
 
-        userId = FirebaseAuth.getInstance().currentUser!!.uid
-        val productId = intent.extras?.getString(EXTRA_PRODUCT) ?: ""
-        val productRef = FirebaseDatabase.getInstance().reference.child("Products").child(productId)
-        val rentId =
-            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Rents")
-                .push().key
-        userRentRef =
-            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Rents")
-                .child(rentId!!)
-        val storageReference = FirebaseStorage.getInstance().reference
+        productEntity = intent.extras?.getParcelable(EXTRA_PRODUCT)
 
-        productRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
-                    productEntity = dataSnapshot.getValue(ProductEntity::class.java)
-                    storageReference.child("images/products/${productEntity?.id}").downloadUrl.addOnSuccessListener { uri ->
-                        Glide.with(applicationContext)
-                            .load(uri)
-                            .into(activity_detail_product_iv_productimg)
-                    }.addOnFailureListener {}
-                    activity_detail_product_tv_name.text = productEntity?.name
-                    activity_detail_product_tv_price.text = productEntity?.price
-                    activity_detail_product_tv_owner.text = productEntity?.owner
-                    activity_detail_product_tv_desciption.text = productEntity?.desc
-                }
-            }
+        viewModel = ViewModelProvider(
+            this,
+            Injection.provideViewModelFactory()
+        )[MainViewModel::class.java]
 
-            override fun onCancelled(databaseError: DatabaseError) {}
+        viewModel.getUserDetail().observe(this, { user ->
+            username = user?.fullname!!
         })
 
         activity_detail_product_btn_chat.setOnClickListener {
-            chatOwner()
+            viewModel.chatOwner(productEntity)
             val intent = Intent(this@DetailProductActivity, ChatActivity::class.java)
             intent.putExtra(ChatActivity.EXTRA_PRODUCT, productEntity?.id)
             startActivity(intent)
@@ -69,30 +50,25 @@ class DetailProductActivity : AppCompatActivity() {
         }
 
         activity_detail_product_btn_rent.setOnClickListener {
-            if (userId != productEntity?.ownerId) {
-                rentProduct()
+            if (username != productEntity?.owner) {
+                viewModel.rentProduct(productEntity)
                 val intent = Intent(this@DetailProductActivity, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
         }
+        loadData()
     }
 
-    private fun rentProduct() {
-        val productInfo: MutableMap<String, Any> = HashMap()
-        productInfo["id"] = productEntity?.id as String
-        productInfo["time"] =
-            SimpleDateFormat("MMM dd, yyyy 'at' hh:mm:ss a").format(Calendar.getInstance().time)
-        userRentRef.updateChildren(productInfo)
+    private fun loadData() {
+        FirebaseStorage.getInstance().reference.child("images/products/${productEntity?.id}").downloadUrl.addOnSuccessListener { uri ->
+            Glide.with(applicationContext)
+                .load(uri)
+                .into(activity_detail_product_iv_productimg)
+        }.addOnFailureListener {}
+        activity_detail_product_tv_name.text = productEntity?.name
+        activity_detail_product_tv_price.text = productEntity?.price
+        activity_detail_product_tv_owner.text = productEntity?.owner
+        activity_detail_product_tv_desciption.text = productEntity?.desc
     }
-
-    private fun chatOwner() {
-        val productInfo: MutableMap<String, Any> = HashMap()
-        productInfo["id"] = productEntity?.id as String
-        val userChatRef =
-            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats")
-                .child(productEntity?.id as String)
-        userChatRef.updateChildren(productInfo)
-    }
-
 }

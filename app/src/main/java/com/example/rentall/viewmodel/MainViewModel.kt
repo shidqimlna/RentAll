@@ -1,6 +1,5 @@
 package com.example.rentall.viewmodel
 
-import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -23,8 +22,16 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
         return mainRepository.getUserDetail()
     }
 
-    fun addProduct(productEntity: ProductEntity?, filePath: Uri?, context: Context) {
-        mainRepository.addProduct(productEntity, filePath, context)
+    fun addProduct(productEntity: ProductEntity?, filePath: Uri?) {
+        return mainRepository.addProduct(productEntity, filePath)
+    }
+
+    fun rentProduct(productEntity: ProductEntity?) {
+        mainRepository.rentProduct(productEntity)
+    }
+
+    fun chatOwner(productEntity: ProductEntity?) {
+        mainRepository.chatOwner(productEntity)
     }
 
 }
