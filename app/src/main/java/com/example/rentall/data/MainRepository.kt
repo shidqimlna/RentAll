@@ -46,6 +46,14 @@ class MainRepository constructor(private val remoteDataSource: RemoteDataSource)
         remoteDataSource.addProduct(productEntity, filePath)
     }
 
+    override fun editProduct(productEntity: ProductEntity?, filePath: Uri?) {
+        remoteDataSource.editProduct(productEntity, filePath)
+    }
+
+    override fun deleteProduct(productEntity: ProductEntity?) {
+        remoteDataSource.deleteProduct(productEntity)
+    }
+
     override fun rentProduct(productEntity: ProductEntity?) {
         remoteDataSource.rentProduct(productEntity)
     }

@@ -1,29 +1,33 @@
 package com.example.rentall.ui.product
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.rentall.R
 import com.example.rentall.data.entity.ProductEntity
+import com.example.rentall.di.Injection
 import com.example.rentall.ui.account.UserAccountActivity
+import com.example.rentall.util.Helper.PICK_IMAGE_REQUEST
+import com.example.rentall.util.Helper.selectImage
+import com.example.rentall.viewmodel.MainViewModel
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_edit_product.*
 import java.io.IOException
 
-
 class EditProductActivity : AppCompatActivity() {
 
-    private val PICK_IMAGE_REQUEST = 22
+    //    private val PICK_IMAGE_REQUEST = 22
     private var filePath: Uri? = null
-    private lateinit var productImageRef: StorageReference
-    private lateinit var productRef: DatabaseReference
+//    private lateinit var productImageRef: StorageReference
+//    private lateinit var productRef: DatabaseReference
+
+    private var productEntity: ProductEntity? = ProductEntity()
+    private lateinit var viewModel: MainViewModel
 
     companion object {
         const val EXTRA_PRODUCT = "extra_product"
@@ -33,71 +37,90 @@ class EditProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_product)
 
-        val productId = intent.extras?.getString(EXTRA_PRODUCT) ?: ""
-        productRef = FirebaseDatabase.getInstance().reference.child("Products").child(productId)
-        productImageRef =
-            FirebaseStorage.getInstance().reference.child("images/products/$productId")
-        val storageReference = FirebaseStorage.getInstance().reference
+        productEntity = intent.extras?.getParcelable(EXTRA_PRODUCT)
 
-        productRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
-                    val productEntity: ProductEntity? =
-                        dataSnapshot.getValue(ProductEntity::class.java)
-                    storageReference.child("images/products/${productEntity?.id}").downloadUrl.addOnSuccessListener { uri ->
-                        Glide.with(applicationContext)
-                            .load(uri)
-                            .into(activity_edit_product_iv_productimg)
-                    }.addOnFailureListener {}
-                    activity_edit_product_et_name.setText(productEntity?.name)
-                    activity_edit_product_et_price.setText(productEntity?.price)
-                    activity_edit_product_et_desciption.setText(productEntity?.desc)
-                }
-            }
+        viewModel = ViewModelProvider(
+            this,
+            Injection.provideViewModelFactory()
+        )[MainViewModel::class.java]
 
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
+//        productRef = FirebaseDatabase.getInstance().reference.child("Products").child(productId)
+//        productImageRef =
+//            FirebaseStorage.getInstance().reference.child("images/products/$productId")
+//        val storageReference = FirebaseStorage.getInstance().reference
+
+//        productRef.addListenerForSingleValueEvent(object : ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
+//                    val productEntity: ProductEntity? =
+//                        dataSnapshot.getValue(ProductEntity::class.java)
+//                    FirebaseStorage.getInstance().reference.child("images/products/${productEntity?.id}").downloadUrl.addOnSuccessListener { uri ->
+//                        Glide.with(applicationContext)
+//                            .load(uri)
+//                            .into(activity_edit_product_iv_productimg)
+//                    }.addOnFailureListener {}
+//                    activity_edit_product_et_name.setText(productEntity?.name)
+//                    activity_edit_product_et_price.setText(productEntity?.price)
+//                    activity_edit_product_et_desciption.setText(productEntity?.desc)
+//                }
+//            }
+//
+//            override fun onCancelled(databaseError: DatabaseError) {}
+//        })
 
         activity_edit_product_btn_addimg.setOnClickListener {
-            selectImage()
+            selectImage(this)
         }
 
         activity_edit_product_btn_submit.setOnClickListener {
             uploadData()
-            uploadImage()
-            val intent = Intent(this@EditProductActivity, UserAccountActivity::class.java)
-            startActivity(intent)
-            finish()
         }
 
-        activity_edit_product_btn_delete.setOnClickListener{
-            productRef.removeValue()
-            productImageRef.delete()
-                    val move = Intent(this@EditProductActivity, UserAccountActivity::class.java)
-                    startActivity(move)
+        activity_edit_product_btn_delete.setOnClickListener {
+            viewModel.deleteProduct(productEntity)
+            val move = Intent(this@EditProductActivity, UserAccountActivity::class.java)
+            startActivity(move)
         }
+
+        loadData()
+    }
+
+    private fun loadData() {
+        FirebaseStorage.getInstance().reference.child("images/products/${productEntity?.id}").downloadUrl.addOnSuccessListener { uri ->
+            Glide.with(applicationContext)
+                .load(uri)
+                .into(activity_edit_product_iv_productimg)
+        }.addOnFailureListener {}
+        activity_edit_product_et_name.setText(productEntity?.name)
+        activity_edit_product_et_price.setText(productEntity?.price)
+        activity_edit_product_et_desciption.setText(productEntity?.desc)
     }
 
     private fun uploadData() {
-        val productName: String = activity_edit_product_et_name.text.toString()
-        val price: String = activity_edit_product_et_price.text.toString()
-        val description: String = activity_edit_product_et_desciption.text.toString()
-        val productInfo: MutableMap<String, Any> = java.util.HashMap()
-        productInfo["name"] = productName
-        productInfo["price"] = price
-        productInfo["desc"] = description
-        productRef.updateChildren(productInfo)
+        productEntity?.name = activity_edit_product_et_name.text.toString()
+        productEntity?.price = activity_edit_product_et_price.text.toString()
+        productEntity?.desc = activity_edit_product_et_desciption.text.toString()
+        viewModel.editProduct(productEntity, filePath)
+        val intent = Intent(this@EditProductActivity, UserAccountActivity::class.java)
+        startActivity(intent)
+        finish()
+//        val productInfo: MutableMap<String, Any> = java.util.HashMap()
+//        productInfo["name"] = productName
+//        productInfo["price"] = price
+//        productInfo["desc"] = description
+//        productRef.updateChildren(productInfo)
+
     }
 
-    private fun selectImage() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(
-            Intent.createChooser(intent, "Select Image from here..."),
-            PICK_IMAGE_REQUEST
-        )
-    }
+//    private fun selectImage() {
+//        val intent = Intent()
+//        intent.type = "image/*"
+//        intent.action = Intent.ACTION_GET_CONTENT
+//        startActivityForResult(
+//            Intent.createChooser(intent, "Select Image from here..."),
+//            PICK_IMAGE_REQUEST
+//        )
+//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -112,45 +135,45 @@ class EditProductActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadImage() {
-        if (filePath != null) {
-            val progressDialog = ProgressDialog(this)
-            progressDialog.setTitle("Uploading...")
-            progressDialog.show()
-            productImageRef.putFile(filePath!!)
-                .addOnSuccessListener {
-                    try {
-                        progressDialog.dismiss()
-                        Toast.makeText(
-                            this@EditProductActivity,
-                            "Data Uploaded!!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-                .addOnFailureListener { e ->
-                    try {
-                        progressDialog.dismiss()
-                        Toast.makeText(
-                            this@EditProductActivity,
-                            "Failed " + e.message,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-                .addOnProgressListener { taskSnapshot ->
-                    try {
-                        val progress =
-                            (100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount)
-                        progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }
-        }
-    }
+//    private fun uploadImage() {
+//        if (filePath != null) {
+//            val progressDialog = ProgressDialog(this)
+//            progressDialog.setTitle("Uploading...")
+//            progressDialog.show()
+//            productImageRef.putFile(filePath!!)
+//                .addOnSuccessListener {
+//                    try {
+//                        progressDialog.dismiss()
+//                        Toast.makeText(
+//                            this@EditProductActivity,
+//                            "Data Uploaded!!",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    } catch (e: Exception) {
+//                        e.printStackTrace()
+//                    }
+//                }
+//                .addOnFailureListener { e ->
+//                    try {
+//                        progressDialog.dismiss()
+//                        Toast.makeText(
+//                            this@EditProductActivity,
+//                            "Failed " + e.message,
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    } catch (e: Exception) {
+//                        e.printStackTrace()
+//                    }
+//                }
+//                .addOnProgressListener { taskSnapshot ->
+//                    try {
+//                        val progress =
+//                            (100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount)
+//                        progressDialog.setMessage("Uploaded " + progress.toInt() + "%")
+//                    } catch (e: Exception) {
+//                        e.printStackTrace()
+//                    }
+//                }
+//        }
+//    }
 }

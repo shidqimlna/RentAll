@@ -123,6 +123,29 @@ class RemoteDataSource {
         if (filePath != null) productImageRef.putFile(filePath)
     }
 
+    fun editProduct(productEntity: ProductEntity?, filePath: Uri?) {
+        val productRef =
+            FirebaseDatabase.getInstance().reference.child("Products").child(productEntity?.id!!)
+        val productInfo: MutableMap<String, Any> = HashMap()
+        productInfo["name"] = productEntity.name.toString()
+        productInfo["price"] = productEntity.price.toString()
+        productInfo["desc"] = productEntity.desc.toString()
+        productRef.updateChildren(productInfo)
+
+        val productImageRef =
+            FirebaseStorage.getInstance().reference.child("images/products/${productEntity.id}")
+        if (filePath != null) productImageRef.putFile(filePath)
+    }
+
+    fun deleteProduct(productEntity: ProductEntity?) {
+        val productRef =
+            FirebaseDatabase.getInstance().reference.child("Products").child(productEntity?.id!!)
+        productRef.removeValue()
+        val productImageRef =
+            FirebaseStorage.getInstance().reference.child("images/products/${productEntity.id}")
+        productImageRef.delete()
+    }
+
     interface LoadProductsCallback {
         fun onAllProductsReceived(productResponse: List<ProductEntity?>)
     }

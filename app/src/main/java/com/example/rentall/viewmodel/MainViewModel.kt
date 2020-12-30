@@ -26,6 +26,14 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
         return mainRepository.addProduct(productEntity, filePath)
     }
 
+    fun editProduct(productEntity: ProductEntity?, filePath: Uri?) {
+        return mainRepository.editProduct(productEntity, filePath)
+    }
+
+    fun deleteProduct(productEntity: ProductEntity?) {
+        return mainRepository.deleteProduct(productEntity)
+    }
+
     fun rentProduct(productEntity: ProductEntity?) {
         mainRepository.rentProduct(productEntity)
     }

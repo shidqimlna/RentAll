@@ -52,7 +52,7 @@ class UserProductAdapter : RecyclerView.Adapter<UserProductAdapter.ListViewHolde
                     item_user_product_tv_price.text = it.price
                     item_user_product_cardView.setOnClickListener {
                         val intent = Intent(context, EditProductActivity::class.java)
-                        intent.putExtra(EditProductActivity.EXTRA_PRODUCT, productEntity.id)
+                        intent.putExtra(EditProductActivity.EXTRA_PRODUCT, productEntity)
                         context.startActivity(intent)
                     }
                 }

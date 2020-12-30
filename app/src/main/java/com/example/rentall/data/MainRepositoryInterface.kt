@@ -9,6 +9,8 @@ interface MainRepositoryInterface {
     fun getUserDetail(): LiveData<UserEntity?>
     fun getProductList(query: String?): LiveData<List<ProductEntity?>>
     fun addProduct(productEntity: ProductEntity?, filePath: Uri?)
+    fun editProduct(productEntity: ProductEntity?, filePath: Uri?)
+    fun deleteProduct(productEntity: ProductEntity?)
     fun rentProduct(productEntity: ProductEntity?)
     fun chatOwner(productEntity: ProductEntity?)
 }
