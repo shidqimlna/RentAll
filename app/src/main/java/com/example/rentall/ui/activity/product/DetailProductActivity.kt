@@ -44,7 +44,7 @@ class DetailProductActivity : AppCompatActivity() {
         activity_detail_product_btn_chat.setOnClickListener {
             viewModel.chatOwner(productEntity)
             val intent = Intent(this@DetailProductActivity, ChatActivity::class.java)
-            intent.putExtra(ChatActivity.EXTRA_PRODUCT, productEntity?.id)
+            intent.putExtra(ChatActivity.EXTRA_PRODUCT, productEntity)
             startActivity(intent)
             finish()
         }

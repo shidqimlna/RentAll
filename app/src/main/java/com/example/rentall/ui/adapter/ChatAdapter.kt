@@ -11,16 +11,20 @@ import kotlinx.android.synthetic.main.item_chat.view.*
 
 class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ListViewHolder>() {
     private val listChats = ArrayList<ChatEntity?>()
+
+    fun setChat(entities: Collection<ChatEntity?>) {
+//        Log.e("CA INIT",listChats.size.toString())
+        listChats.clear()
+//        Log.e("CA CLEAR",listChats.size.toString())
+        listChats.addAll(entities)
+//        Log.e("CA ADD",listChats.size.toString())
+        notifyDataSetChanged()
+    }
+
     private var username = String()
 
     fun setUser(user: String) {
         username = user
-    }
-
-    fun setChat(entities: Collection<ChatEntity?>) {
-        listChats.clear()
-        listChats.addAll(entities)
-        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ListViewHolder =

@@ -1,6 +1,7 @@
 package com.example.rentall.data.firebase
 
 import android.net.Uri
+import android.util.Log
 import com.example.rentall.data.entity.ChatEntity
 import com.example.rentall.data.entity.ProductEntity
 import com.example.rentall.data.entity.UserEntity
@@ -54,6 +55,7 @@ class RemoteDataSource {
         productRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 try {
+                    listProduct.clear()
                     for (dataSnapshot in dataSnapshot.children) {
                         val userProduct: ProductEntity? =
                             dataSnapshot.getValue(ProductEntity::class.java)
@@ -165,14 +167,16 @@ class RemoteDataSource {
         val listChat: MutableList<ChatEntity?> = mutableListOf()
         val chatRef =
             FirebaseDatabase.getInstance().reference.child("Chats").child(productEntity?.id!!)
+                .orderByChild("time")
         chatRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 try {
+                    listChat.clear()
                     for (dataSnapshot in dataSnapshot.children) {
-                        val chatEntity: ChatEntity? =
-                            dataSnapshot.getValue(ChatEntity::class.java)
+                        val chatEntity: ChatEntity? = dataSnapshot.getValue(ChatEntity::class.java)
                         listChat.add(chatEntity)
                     }
+                    Log.e("RDS", listChat.size.toString())
                     callback.onChatMessagesReceived(listChat)
                 } catch (e: Exception) {
                     throw Exception(e.message.toString())

@@ -10,6 +10,5 @@ data class ProductEntity(
     var price: String? = null,
     var desc: String? = null,
     var owner: String? = null,
-//    var ownerId: String? = null,
     var time: String? = null
 ) : Parcelable
