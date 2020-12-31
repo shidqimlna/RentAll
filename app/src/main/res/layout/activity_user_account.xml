@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.account.UserAccountActivity">
+    tools:context=".ui.activity.account.UserAccountActivity">
 
     <TextView
         android:id="@+id/activity_user_acc_tv_fullname"

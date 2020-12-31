@@ -1,6 +1,7 @@
 package com.example.rentall.data.firebase
 
 import android.net.Uri
+import com.example.rentall.data.entity.ChatEntity
 import com.example.rentall.data.entity.ProductEntity
 import com.example.rentall.data.entity.UserEntity
 import com.google.firebase.auth.FirebaseAuth
@@ -146,12 +147,52 @@ class RemoteDataSource {
         productImageRef.delete()
     }
 
+    fun sendMessage(chatEntity: ChatEntity, productEntity: ProductEntity?) {
+        val chatId =
+            FirebaseDatabase.getInstance().reference.child("Chats").child(productEntity?.id!!)
+                .push().key
+        val chatRef =
+            FirebaseDatabase.getInstance().reference.child("Chats").child(productEntity.id!!)
+                .child(chatId!!)
+        val messageInfoMap: HashMap<String, Any> = HashMap()
+        messageInfoMap["name"] = chatEntity.name.toString()
+        messageInfoMap["message"] = chatEntity.message.toString()
+        messageInfoMap["time"] = chatEntity.time.toString()
+        chatRef.updateChildren(messageInfoMap)
+    }
+
+    fun getMessages(productEntity: ProductEntity?, callback: LoadChatMessagesCallback) {
+        val listChat: MutableList<ChatEntity?> = mutableListOf()
+        val chatRef =
+            FirebaseDatabase.getInstance().reference.child("Chats").child(productEntity?.id!!)
+        chatRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                try {
+                    for (dataSnapshot in dataSnapshot.children) {
+                        val chatEntity: ChatEntity? =
+                            dataSnapshot.getValue(ChatEntity::class.java)
+                        listChat.add(chatEntity)
+                    }
+                    callback.onChatMessagesReceived(listChat)
+                } catch (e: Exception) {
+                    throw Exception(e.message.toString())
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
     interface LoadProductsCallback {
         fun onAllProductsReceived(productResponse: List<ProductEntity?>)
     }
 
     interface LoadUserDetailCallback {
         fun onUserDetailReceived(userResponse: UserEntity?)
+    }
+
+    interface LoadChatMessagesCallback {
+        fun onChatMessagesReceived(chatResponse: List<ChatEntity?>)
     }
 
 }

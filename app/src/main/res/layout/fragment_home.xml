@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.main.HomeFragment">
+    tools:context=".ui.fragment.HomeFragment">
 
     <TextView
         android:id="@+id/fragment_home_tv_username"

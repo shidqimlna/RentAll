@@ -1,4 +1,4 @@
-package com.example.rentall.ui.product
+package com.example.rentall.ui.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,13 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rentall.R
 import com.example.rentall.data.entity.ProductEntity
+import com.example.rentall.ui.activity.product.DetailProductActivity
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.item_product.view.*
 
 
 class ProductAdapter : RecyclerView.Adapter<ProductAdapter.ListViewHolder>() {
-    private val listProducts = ArrayList<ProductEntity?>()
+    private var listProducts = ArrayList<ProductEntity?>()
     private lateinit var storageReference: StorageReference
 
     fun setData(entities: Collection<ProductEntity?>) {

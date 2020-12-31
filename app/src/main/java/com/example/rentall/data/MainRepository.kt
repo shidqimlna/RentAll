@@ -3,11 +3,11 @@ package com.example.rentall.data
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.rentall.data.entity.ChatEntity
 import com.example.rentall.data.entity.ProductEntity
 import com.example.rentall.data.entity.UserEntity
 import com.example.rentall.data.firebase.RemoteDataSource
-import com.example.rentall.data.firebase.RemoteDataSource.LoadProductsCallback
-import com.example.rentall.data.firebase.RemoteDataSource.LoadUserDetailCallback
+import com.example.rentall.data.firebase.RemoteDataSource.*
 
 class MainRepository constructor(private val remoteDataSource: RemoteDataSource) :
     MainRepositoryInterface {
@@ -52,6 +52,20 @@ class MainRepository constructor(private val remoteDataSource: RemoteDataSource)
 
     override fun deleteProduct(productEntity: ProductEntity?) {
         remoteDataSource.deleteProduct(productEntity)
+    }
+
+    override fun sendMessage(chatEntity: ChatEntity, productEntity: ProductEntity?) {
+        remoteDataSource.sendMessage(chatEntity, productEntity)
+    }
+
+    override fun getMessages(productEntity: ProductEntity?): LiveData<List<ChatEntity?>> {
+        val chatResults = MutableLiveData<List<ChatEntity?>>()
+        remoteDataSource.getMessages(productEntity, object : LoadChatMessagesCallback {
+            override fun onChatMessagesReceived(chatResponse: List<ChatEntity?>) {
+                chatResults.postValue(chatResponse)
+            }
+        })
+        return chatResults
     }
 
     override fun rentProduct(productEntity: ProductEntity?) {

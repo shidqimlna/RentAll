@@ -1,4 +1,4 @@
-package com.example.rentall.ui.account
+package com.example.rentall.ui.activity.account
 
 import android.content.Intent
 import android.os.Bundle

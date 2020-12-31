@@ -1,4 +1,4 @@
-package com.example.rentall.ui.product
+package com.example.rentall.ui.activity.product
 
 import android.content.Intent
 import android.net.Uri
@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.rentall.R
 import com.example.rentall.data.entity.ProductEntity
 import com.example.rentall.di.Injection
-import com.example.rentall.ui.account.UserAccountActivity
+import com.example.rentall.ui.activity.account.UserAccountActivity
 import com.example.rentall.util.Helper.PICK_IMAGE_REQUEST
 import com.example.rentall.util.Helper.selectImage
 import com.example.rentall.viewmodel.MainViewModel

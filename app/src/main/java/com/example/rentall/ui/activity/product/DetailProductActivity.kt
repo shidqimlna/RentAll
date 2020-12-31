@@ -1,4 +1,4 @@
-package com.example.rentall.ui.product
+package com.example.rentall.ui.activity.product
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,8 +8,8 @@ import com.bumptech.glide.Glide
 import com.example.rentall.R
 import com.example.rentall.data.entity.ProductEntity
 import com.example.rentall.di.Injection
-import com.example.rentall.ui.chat.ChatActivity
-import com.example.rentall.ui.main.MainActivity
+import com.example.rentall.ui.activity.chat.ChatActivity
+import com.example.rentall.ui.activity.main.MainActivity
 import com.example.rentall.viewmodel.MainViewModel
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage

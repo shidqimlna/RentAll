@@ -1,11 +1,11 @@
-package com.example.rentall.ui.account
+package com.example.rentall.ui.activity.account
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rentall.R
-import com.example.rentall.ui.main.MainActivity
+import com.example.rentall.ui.activity.main.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase

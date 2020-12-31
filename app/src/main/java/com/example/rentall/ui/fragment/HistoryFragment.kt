@@ -1,4 +1,4 @@
-package com.example.rentall.ui.chat
+package com.example.rentall.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,31 +8,33 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rentall.R
 import com.example.rentall.data.entity.ProductEntity
+import com.example.rentall.ui.adapter.RentHistoryAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.fragment_chat.*
+import kotlinx.android.synthetic.main.fragment_history.*
 
-class ChatFragment : Fragment() {
+class HistoryFragment : Fragment() {
 
-    private var listUserChats = ArrayList<ProductEntity?>()
+    private var listUserRents = ArrayList<ProductEntity?>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_chat, container, false)
+        return inflater.inflate(R.layout.fragment_history, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
 
-            val chatAdapter = ChatAdapter()
+            val rentHistoryAdapter = RentHistoryAdapter()
+
             val userId = FirebaseAuth.getInstance().currentUser!!.uid
-            val userChatRef: DatabaseReference =
+            val userRentRef: DatabaseReference =
                 FirebaseDatabase.getInstance().reference.child("Users")
-                    .child(userId).child("Chats")
-            userChatRef.addValueEventListener(object : ValueEventListener {
+                    .child(userId).child("Rents")
+            userRentRef.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     for (dataSnapshot1 in dataSnapshot.children) {
                         val userRent: ProductEntity? =
@@ -48,12 +50,12 @@ class ChatFragment : Fragment() {
                                         val productEntity: ProductEntity? =
                                             dataSnapshot2.getValue(ProductEntity::class.java)
                                         productEntity?.time = userRent?.time
-                                        listUserChats.add(productEntity)
+                                        listUserRents.add(productEntity)
                                     }
-                                    chatAdapter.chatAdapter(listUserChats)
-                                    chatAdapter.notifyDataSetChanged()
+                                    rentHistoryAdapter.rentHistoryAdapter(listUserRents)
+                                    rentHistoryAdapter.notifyDataSetChanged()
                                 } else {
-                                    val userRentIdRef = userChatRef.child(userRent?.id!!)
+                                    val userRentIdRef = userRentRef.child(userRent?.id!!)
                                     userRentIdRef.removeValue()
                                 }
                             }
@@ -67,10 +69,10 @@ class ChatFragment : Fragment() {
                 }
             })
 
-            with(fragment_chat_rv_group) {
+            with(fragment_history_rv_product) {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
-                adapter = chatAdapter
+                adapter = rentHistoryAdapter
             }
         }
     }

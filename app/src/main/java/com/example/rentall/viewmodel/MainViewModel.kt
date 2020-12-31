@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.rentall.data.MainRepository
+import com.example.rentall.data.entity.ChatEntity
 import com.example.rentall.data.entity.ProductEntity
 import com.example.rentall.data.entity.UserEntity
 
@@ -40,6 +41,14 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
     fun chatOwner(productEntity: ProductEntity?) {
         mainRepository.chatOwner(productEntity)
+    }
+
+    fun sendMessage(chatEntity: ChatEntity, productEntity: ProductEntity?) {
+        mainRepository.sendMessage(chatEntity, productEntity)
+    }
+
+    fun getMessages(productEntity: ProductEntity?): LiveData<List<ChatEntity?>> {
+        return mainRepository.getMessages(productEntity)
     }
 
 }

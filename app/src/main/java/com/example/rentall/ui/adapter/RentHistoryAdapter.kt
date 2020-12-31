@@ -1,4 +1,4 @@
-package com.example.rentall.ui.history
+package com.example.rentall.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View

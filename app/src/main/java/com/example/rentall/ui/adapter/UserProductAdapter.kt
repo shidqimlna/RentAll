@@ -1,4 +1,4 @@
-package com.example.rentall.ui.chat
+package com.example.rentall.ui.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,20 +8,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rentall.R
 import com.example.rentall.data.entity.ProductEntity
+import com.example.rentall.ui.activity.product.EditProductActivity
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.item_product.view.*
 
 
-class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ListViewHolder>() {
+class UserProductAdapter : RecyclerView.Adapter<UserProductAdapter.ListViewHolder>() {
     private val listProducts = ArrayList<ProductEntity?>()
-    private val storageReference: StorageReference = FirebaseStorage.getInstance().reference
+    private lateinit var storageReference: StorageReference
 
-    fun chatAdapter(entities: ArrayList<ProductEntity?>) {
+    fun userProductAdapter(entities: ArrayList<ProductEntity?>) {
         listProducts.clear()
         listProducts.addAll(entities)
         notifyDataSetChanged()
-//        storageReference = FirebaseStorage.getInstance().reference
+        storageReference = FirebaseStorage.getInstance().reference
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ListViewHolder =
@@ -50,10 +51,9 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ListViewHolder>() {
                     }.addOnFailureListener {}
                     item_user_product_tv_name.text = it.name
                     item_user_product_tv_price.text = it.price
-                    item_user_product_tv_owner.text = it.owner
                     item_user_product_cardView.setOnClickListener {
-                        val intent = Intent(context, ChatActivity::class.java)
-                        intent.putExtra(ChatActivity.EXTRA_PRODUCT, productEntity.id)
+                        val intent = Intent(context, EditProductActivity::class.java)
+                        intent.putExtra(EditProductActivity.EXTRA_PRODUCT, productEntity)
                         context.startActivity(intent)
                     }
                 }

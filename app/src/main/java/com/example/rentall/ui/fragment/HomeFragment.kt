@@ -1,4 +1,4 @@
-package com.example.rentall.ui.main
+package com.example.rentall.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rentall.R
 import com.example.rentall.di.Injection
-import com.example.rentall.ui.account.UserAccountActivity
-import com.example.rentall.ui.product.ProductAdapter
+import com.example.rentall.ui.activity.account.UserAccountActivity
+import com.example.rentall.ui.adapter.ProductAdapter
 import com.example.rentall.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -68,7 +68,6 @@ class HomeFragment : Fragment() {
         viewModel.setQuery(searchQuery)
         viewModel.getProductList().observe(this, { products ->
             productAdapter.setData(products)
-            productAdapter.notifyDataSetChanged()
         })
     }
 }

@@ -11,17 +11,17 @@
         android:roundIcon="@mipmap/logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.chat.ChatActivity"></activity>
-        <activity android:name=".ui.main.MainActivity" />
-        <activity android:name=".ui.product.EditProductActivity" />
-        <activity android:name=".ui.product.NewProductActivity" />
-        <activity android:name=".ui.product.DetailProductActivity" />
-        <activity android:name=".ui.splash.LandingActivity" />
-        <activity android:name=".ui.account.RegisterActivity" />
-        <activity android:name=".ui.account.EditAccountActivity" />
-        <activity android:name=".ui.account.LoginActivity" />
-        <activity android:name=".ui.account.UserAccountActivity" />
-        <activity android:name=".ui.splash.SplashActivity">
+        <activity android:name="com.example.rentall.ui.activity.chat.ChatActivity"></activity>
+        <activity android:name="com.example.rentall.ui.activity.main.MainActivity" />
+        <activity android:name="com.example.rentall.ui.activity.product.EditProductActivity" />
+        <activity android:name="com.example.rentall.ui.activity.product.NewProductActivity" />
+        <activity android:name="com.example.rentall.ui.activity.product.DetailProductActivity" />
+        <activity android:name="com.example.rentall.ui.activity.splash.LandingActivity" />
+        <activity android:name="com.example.rentall.ui.activity.account.RegisterActivity" />
+        <activity android:name="com.example.rentall.ui.activity.account.EditAccountActivity" />
+        <activity android:name="com.example.rentall.ui.activity.account.LoginActivity" />
+        <activity android:name="com.example.rentall.ui.activity.account.UserAccountActivity" />
+        <activity android:name="com.example.rentall.ui.activity.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
