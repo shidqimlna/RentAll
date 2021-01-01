@@ -10,6 +10,8 @@ interface MainRepositoryInterface {
     fun getUserDetail(): LiveData<UserEntity?>
     fun getProductList(query: String?): LiveData<List<ProductEntity?>>
     fun getUserProductList(): LiveData<List<ProductEntity?>>
+    fun getUserChatList(): LiveData<List<ProductEntity?>>
+    fun getUserRentingHistoryList(): LiveData<List<ProductEntity?>>
     fun editAccount(userEntity: UserEntity?)
     fun addProduct(productEntity: ProductEntity?, filePath: Uri?)
     fun editProduct(productEntity: ProductEntity?, filePath: Uri?)

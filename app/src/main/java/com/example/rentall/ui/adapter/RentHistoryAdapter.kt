@@ -16,7 +16,7 @@ class RentHistoryAdapter : RecyclerView.Adapter<RentHistoryAdapter.ListViewHolde
     private val listProducts = ArrayList<ProductEntity?>()
     private lateinit var storageReference: StorageReference
 
-    fun rentHistoryAdapter(entities: ArrayList<ProductEntity?>) {
+    fun setData(entities: Collection<ProductEntity?>) {
         listProducts.clear()
         listProducts.addAll(entities)
         notifyDataSetChanged()

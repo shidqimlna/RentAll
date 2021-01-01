@@ -18,7 +18,7 @@ class GroupAdapter : RecyclerView.Adapter<GroupAdapter.ListViewHolder>() {
     private val listProducts = ArrayList<ProductEntity?>()
     private val storageReference: StorageReference = FirebaseStorage.getInstance().reference
 
-    fun groupAdapter(entities: ArrayList<ProductEntity?>) {
+    fun setData(entities: Collection<ProductEntity?>) {
         listProducts.clear()
         listProducts.addAll(entities)
         notifyDataSetChanged()

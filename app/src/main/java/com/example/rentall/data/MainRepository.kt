@@ -56,6 +56,26 @@ class MainRepository constructor(private val remoteDataSource: RemoteDataSource)
         return productResult
     }
 
+    override fun getUserChatList(): LiveData<List<ProductEntity?>> {
+        val productResult = MutableLiveData<List<ProductEntity?>>()
+        remoteDataSource.getUserChatList(object : LoadProductsCallback {
+            override fun onAllProductsReceived(productResponse: List<ProductEntity?>) {
+                productResult.postValue(productResponse)
+            }
+        })
+        return productResult
+    }
+
+    override fun getUserRentingHistoryList(): LiveData<List<ProductEntity?>> {
+        val productResult = MutableLiveData<List<ProductEntity?>>()
+        remoteDataSource.getUserRentingHistoryList(object : LoadProductsCallback {
+            override fun onAllProductsReceived(productResponse: List<ProductEntity?>) {
+                productResult.postValue(productResponse)
+            }
+        })
+        return productResult
+    }
+
     override fun addProduct(productEntity: ProductEntity?, filePath: Uri?) {
         remoteDataSource.addProduct(productEntity, filePath)
     }

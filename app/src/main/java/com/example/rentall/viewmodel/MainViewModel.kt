@@ -23,6 +23,14 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
         return mainRepository.getUserProductList()
     }
 
+    fun getUserChatList(): LiveData<List<ProductEntity?>> {
+        return mainRepository.getUserChatList()
+    }
+
+    fun getUserRentingHistoryList(): LiveData<List<ProductEntity?>> {
+        return mainRepository.getUserRentingHistoryList()
+    }
+
     fun getUserDetail(): LiveData<UserEntity?> {
         return mainRepository.getUserDetail()
     }

@@ -45,6 +45,10 @@ class ChatActivity : AppCompatActivity() {
             Injection.provideViewModelFactory()
         )[MainViewModel::class.java]
 
+        viewModel.getUserDetail().observe(this, { user ->
+            username = user?.fullname!!
+        })
+
         viewModel.getMessages(productEntity).observe(this, { chats ->
             chatAdapter.setChat(chats)
             activity_chat_rv.scrollToPosition(chatAdapter.itemCount - 1)

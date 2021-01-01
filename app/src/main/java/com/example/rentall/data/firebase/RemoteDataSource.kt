@@ -1,6 +1,7 @@
 package com.example.rentall.data.firebase
 
 import android.net.Uri
+import android.util.Log
 import com.example.rentall.data.entity.ChatEntity
 import com.example.rentall.data.entity.ProductEntity
 import com.example.rentall.data.entity.UserEntity
@@ -123,6 +124,143 @@ class RemoteDataSource {
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+    }
+
+    fun getUserChatList(callback: LoadProductsCallback) {
+        val listUserChats: MutableList<ProductEntity?> = mutableListOf()
+        var productEntity: ProductEntity?
+//        var userProduct: ProductEntity?
+        var productRef: Query
+        var userChatIdRef: DatabaseReference
+        val userChatRef = userRef.child("Chats")
+        userChatRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                try {
+                    if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
+                        listUserChats.clear()
+                        for (dataSnapshot1 in dataSnapshot.children) {
+                            productEntity =
+                                dataSnapshot1.getValue(ProductEntity::class.java)
+                            productRef =
+                                FirebaseDatabase.getInstance().reference.child("Products")
+                                    .orderByChild("id")
+                                    .equalTo(productEntity?.id)
+                            productRef.addValueEventListener(object : ValueEventListener {
+                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        for (dataSnapshot2 in dataSnapshot.children) {
+                                            productEntity =
+                                                dataSnapshot2.getValue(ProductEntity::class.java)
+                                            listUserChats.add(productEntity)
+                                        }
+                                        callback.onAllProductsReceived(listUserChats)
+                                    } else {
+                                        userChatIdRef = userChatRef.child(productEntity?.id!!)
+                                        userChatIdRef.removeValue()
+                                    }
+                                }
+
+                                override fun onCancelled(databaseError: DatabaseError) {}
+                            })
+                        }
+                    }
+                } catch (e: Exception) {
+                    throw Exception(e.message.toString())
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    fun getUserRentingHistoryList(callback: LoadProductsCallback) {
+        val listUserRents = ArrayList<ProductEntity?>()
+        val userRentRef =
+            userRef.child("Rents")
+        userRentRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                try {
+                    if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
+                        listUserRents.clear()
+                        for (dataSnapshot1 in dataSnapshot.children) {
+                            val userRent: ProductEntity? =
+                                dataSnapshot1.getValue(ProductEntity::class.java)
+                            val productRef: Query =
+                                FirebaseDatabase.getInstance().reference.child("Products")
+                                    .orderByChild("id")
+                                    .equalTo(userRent?.id)
+                            productRef.addValueEventListener(object : ValueEventListener {
+                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        for (dataSnapshot2 in dataSnapshot.children) {
+                                            val productEntity: ProductEntity? =
+                                                dataSnapshot2.getValue(ProductEntity::class.java)
+                                            productEntity?.time = userRent?.time
+                                            Log.e("RDS IN", productEntity?.time.toString())
+                                            listUserRents.add(productEntity)
+                                        }
+                                        callback.onAllProductsReceived(listUserRents)
+                                    } else {
+                                        val userRentIdRef = userRentRef.child(userRent?.id!!)
+                                        userRentIdRef.removeValue()
+                                    }
+                                }
+
+                                override fun onCancelled(databaseError: DatabaseError) {}
+                            })
+                        }
+                    }
+                } catch (e: Exception) {
+                    throw Exception(e.message.toString())
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+            }
+        })
+
+//
+//        val listUserRents: MutableList<ProductEntity?> = mutableListOf()
+//        var productRef: Query
+//        val userRentRef = userRef.child("Rents")
+//        userRentRef.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                try {
+//                    if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
+//                        listUserRents.clear()
+//                        for (dataSnapshot1 in dataSnapshot.children) {
+//                            val productEntity: ProductEntity? =
+//                                dataSnapshot1.getValue(ProductEntity::class.java)
+//                            Log.e("RDS OUT", productEntity?.time.toString())
+//                            productRef =
+//                                FirebaseDatabase.getInstance().reference.child("Products")
+//                                    .orderByChild("id")
+//                                    .equalTo(productEntity?.id)
+//                            productRef.addValueEventListener(object : ValueEventListener {
+//                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                                    if (dataSnapshot.exists()) {
+//                                        for (dataSnapshot2 in dataSnapshot.children) {
+//                                            val rentProductEntity: ProductEntity? =
+//                                                dataSnapshot2.getValue(ProductEntity::class.java)
+//                                            rentProductEntity?.time = productEntity?.time
+//                                            Log.e("RDS IN", rentProductEntity?.time.toString())
+//                                            listUserRents.add(rentProductEntity)
+//                                        }
+//                                        callback.onAllProductsReceived(listUserRents)
+//                                    }
+//                                }
+//
+//                                override fun onCancelled(databaseError: DatabaseError) {}
+//                            })
+//                        }
+//                    }
+//                } catch (e: Exception) {
+//                    throw Exception(e.message.toString())
+//                }
+//            }
+//
+//            override fun onCancelled(databaseError: DatabaseError) {}
+//        })
     }
 
     fun rentProduct(productEntity: ProductEntity?) {
