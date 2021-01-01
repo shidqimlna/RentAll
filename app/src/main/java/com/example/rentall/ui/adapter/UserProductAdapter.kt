@@ -18,7 +18,7 @@ class UserProductAdapter : RecyclerView.Adapter<UserProductAdapter.ListViewHolde
     private val listProducts = ArrayList<ProductEntity?>()
     private lateinit var storageReference: StorageReference
 
-    fun userProductAdapter(entities: ArrayList<ProductEntity?>) {
+    fun setData(entities: Collection<ProductEntity?>) {
         listProducts.clear()
         listProducts.addAll(entities)
         notifyDataSetChanged()

@@ -13,18 +13,9 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ListViewHolder>() {
     private val listChats = ArrayList<ChatEntity?>()
 
     fun setChat(entities: Collection<ChatEntity?>) {
-//        Log.e("CA INIT",listChats.size.toString())
         listChats.clear()
-//        Log.e("CA CLEAR",listChats.size.toString())
         listChats.addAll(entities)
-//        Log.e("CA ADD",listChats.size.toString())
         notifyDataSetChanged()
-    }
-
-    private var username = String()
-
-    fun setUser(user: String) {
-        username = user
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ListViewHolder =
@@ -46,17 +37,9 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ListViewHolder>() {
         fun bindView(chatEntity: ChatEntity?) {
             chatEntity?.let {
                 with(itemView) {
-                    if (username == it.name) {
-                        item_chat_container_mine.visibility = View.VISIBLE
                         item_chat_tv_name_mine.text = it.name
                         item_chat_tv_message_mine.text = it.message
                         item_chat_tv_time_mine.text = it.time
-                    } else {
-                        item_chat_container_other.visibility = View.VISIBLE
-                        item_chat_tv_name_other.text = it.name
-                        item_chat_tv_message_other.text = it.message
-                        item_chat_tv_time_other.text = it.time
-                    }
                 }
             }
         }

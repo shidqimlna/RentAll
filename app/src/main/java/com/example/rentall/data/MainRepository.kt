@@ -32,9 +32,23 @@ class MainRepository constructor(private val remoteDataSource: RemoteDataSource)
         return userResult
     }
 
+    override fun editAccount(userEntity: UserEntity?) {
+        remoteDataSource.editAccount(userEntity)
+    }
+
     override fun getProductList(query: String?): LiveData<List<ProductEntity?>> {
         val productResult = MutableLiveData<List<ProductEntity?>>()
         remoteDataSource.getProductList(query, object : LoadProductsCallback {
+            override fun onAllProductsReceived(productResponse: List<ProductEntity?>) {
+                productResult.postValue(productResponse)
+            }
+        })
+        return productResult
+    }
+
+    override fun getUserProductList(): LiveData<List<ProductEntity?>> {
+        val productResult = MutableLiveData<List<ProductEntity?>>()
+        remoteDataSource.getUserProductList(object : LoadProductsCallback {
             override fun onAllProductsReceived(productResponse: List<ProductEntity?>) {
                 productResult.postValue(productResponse)
             }

@@ -1,15 +1,11 @@
 package com.example.rentall.data.firebase
 
 import android.net.Uri
-import android.util.Log
 import com.example.rentall.data.entity.ChatEntity
 import com.example.rentall.data.entity.ProductEntity
 import com.example.rentall.data.entity.UserEntity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import java.text.SimpleDateFormat
 import java.util.*
@@ -17,6 +13,8 @@ import java.util.*
 class RemoteDataSource {
 
     private val userId = FirebaseAuth.getInstance().currentUser!!.uid
+    private val userRef = FirebaseDatabase.getInstance().reference.child("Users")
+        .child(userId)
 
     companion object {
         @Volatile
@@ -28,8 +26,6 @@ class RemoteDataSource {
     }
 
     fun getUserDetail(callback: LoadUserDetailCallback) {
-        val userRef = FirebaseDatabase.getInstance().reference.child("Users")
-            .child(userId)
         userRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 try {
@@ -46,8 +42,17 @@ class RemoteDataSource {
         })
     }
 
+    fun editAccount(userEntity: UserEntity?) {
+        val userInfo: MutableMap<String, Any> = HashMap()
+        userInfo["fullname"] = userEntity?.fullname.toString()
+        userInfo["phone"] = userEntity?.phone.toString()
+        userInfo["address"] = userEntity?.address.toString()
+        userRef.updateChildren(userInfo)
+    }
+
     fun getProductList(searchQuery: String?, callback: LoadProductsCallback) {
         val listProduct: MutableList<ProductEntity?> = mutableListOf()
+        var userProduct: ProductEntity?
         val productRef = FirebaseDatabase.getInstance().reference.child("Products")
             .orderByChild("name")
             .startAt(searchQuery)
@@ -55,13 +60,62 @@ class RemoteDataSource {
         productRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 try {
-                    listProduct.clear()
-                    for (dataSnapshot in dataSnapshot.children) {
-                        val userProduct: ProductEntity? =
-                            dataSnapshot.getValue(ProductEntity::class.java)
-                        listProduct.add(userProduct)
+                    if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
+                        listProduct.clear()
+                        for (dataSnapshot in dataSnapshot.children) {
+                            userProduct =
+                                dataSnapshot.getValue(ProductEntity::class.java)
+                            listProduct.add(userProduct)
+                        }
+                        callback.onAllProductsReceived(listProduct)
                     }
-                    callback.onAllProductsReceived(listProduct)
+                } catch (e: Exception) {
+                    throw Exception(e.message.toString())
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    fun getUserProductList(callback: LoadProductsCallback) {
+        val listProduct: MutableList<ProductEntity?> = mutableListOf()
+        var productEntity: ProductEntity?
+//        var userProduct: ProductEntity?
+        var productRef: Query
+        var userProductIdRef: DatabaseReference
+        val userProductRef = userRef.child("Products")
+        userProductRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                try {
+                    if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
+                        listProduct.clear()
+                        for (dataSnapshot1 in dataSnapshot.children) {
+                            productEntity =
+                                dataSnapshot1.getValue(ProductEntity::class.java)
+                            productRef =
+                                FirebaseDatabase.getInstance().reference.child("Products")
+                                    .orderByChild("id")
+                                    .equalTo(productEntity?.id)
+                            productRef.addValueEventListener(object : ValueEventListener {
+                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        for (dataSnapshot2 in dataSnapshot.children) {
+                                            productEntity =
+                                                dataSnapshot2.getValue(ProductEntity::class.java)
+                                            listProduct.add(productEntity)
+                                        }
+                                        callback.onAllProductsReceived(listProduct)
+                                    } else {
+                                        userProductIdRef = userProductRef.child(productEntity?.id!!)
+                                        userProductIdRef.removeValue()
+                                    }
+                                }
+
+                                override fun onCancelled(databaseError: DatabaseError) {}
+                            })
+                        }
+                    }
                 } catch (e: Exception) {
                     throw Exception(e.message.toString())
                 }
@@ -165,6 +219,7 @@ class RemoteDataSource {
 
     fun getMessages(productEntity: ProductEntity?, callback: LoadChatMessagesCallback) {
         val listChat: MutableList<ChatEntity?> = mutableListOf()
+        var chatEntity: ChatEntity?
         val chatRef =
             FirebaseDatabase.getInstance().reference.child("Chats").child(productEntity?.id!!)
                 .orderByChild("time")
@@ -173,10 +228,9 @@ class RemoteDataSource {
                 try {
                     listChat.clear()
                     for (dataSnapshot in dataSnapshot.children) {
-                        val chatEntity: ChatEntity? = dataSnapshot.getValue(ChatEntity::class.java)
+                        chatEntity = dataSnapshot.getValue(ChatEntity::class.java)
                         listChat.add(chatEntity)
                     }
-                    Log.e("RDS", listChat.size.toString())
                     callback.onChatMessagesReceived(listChat)
                 } catch (e: Exception) {
                     throw Exception(e.message.toString())

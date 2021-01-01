@@ -5,58 +5,11 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/item_chat_container_other"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/grey_node" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/left_node_bg"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/item_chat_tv_name_other"
-                style="@style/textview_message_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/item_chat_tv_message_other"
-                style="@style/textview_message_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/item_chat_tv_time_other"
-            style="@style/info_textviews"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
         android:id="@+id/item_chat_container_mine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/item_chat_tv_time_mine"
@@ -65,7 +18,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginRight="10dp" />
-
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -85,6 +37,7 @@
                 style="@style/textview_message_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
         </LinearLayout>
 
         <ImageView

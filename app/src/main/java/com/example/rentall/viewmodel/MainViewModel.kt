@@ -19,8 +19,16 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
         return mainRepository.getProductList(query)
     }
 
+    fun getUserProductList(): LiveData<List<ProductEntity?>> {
+        return mainRepository.getUserProductList()
+    }
+
     fun getUserDetail(): LiveData<UserEntity?> {
         return mainRepository.getUserDetail()
+    }
+
+    fun editAccount(userEntity: UserEntity?) {
+        return mainRepository.editAccount(userEntity)
     }
 
     fun addProduct(productEntity: ProductEntity?, filePath: Uri?) {
