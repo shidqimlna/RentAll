@@ -35,46 +35,6 @@ class HistoryFragment : Fragment() {
                 Injection.provideViewModelFactory()
             )[MainViewModel::class.java]
 
-//            private var listUserRents = ArrayList<ProductEntity?>()
-//            val userId = FirebaseAuth.getInstance().currentUser!!.uid
-//            val userRentRef: DatabaseReference =
-//                FirebaseDatabase.getInstance().reference.child("Users")
-//                    .child(userId).child("Rents")
-//            userRentRef.addValueEventListener(object : ValueEventListener {
-//                override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                    for (dataSnapshot1 in dataSnapshot.children) {
-//                        val userRent: ProductEntity? =
-//                            dataSnapshot1.getValue(ProductEntity::class.java)
-//                        val productRef: Query =
-//                            FirebaseDatabase.getInstance().reference.child("Products")
-//                                .orderByChild("id")
-//                                .equalTo(userRent?.id)
-//                        productRef.addValueEventListener(object : ValueEventListener {
-//                            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                                if (dataSnapshot.exists()) {
-//                                    for (dataSnapshot2 in dataSnapshot.children) {
-//                                        val productEntity: ProductEntity? =
-//                                            dataSnapshot2.getValue(ProductEntity::class.java)
-//                                        productEntity?.time = userRent?.time
-//                                        listUserRents.add(productEntity)
-//                                    }
-//                                    rentHistoryAdapter.rentHistoryAdapter(listUserRents)
-//                                    rentHistoryAdapter.notifyDataSetChanged()
-//                                } else {
-//                                    val userRentIdRef = userRentRef.child(userRent?.id!!)
-//                                    userRentIdRef.removeValue()
-//                                }
-//                            }
-//
-//                            override fun onCancelled(databaseError: DatabaseError) {}
-//                        })
-//                    }
-//                }
-//
-//                override fun onCancelled(databaseError: DatabaseError) {
-//                }
-//            })
-
             viewModel.getUserRentingHistoryList().observe(this, { products ->
                 rentHistoryAdapter.setData(products)
             })

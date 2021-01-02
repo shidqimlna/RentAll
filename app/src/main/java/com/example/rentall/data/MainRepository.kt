@@ -1,5 +1,6 @@
 package com.example.rentall.data
 
+import android.app.Activity
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,6 +21,14 @@ class MainRepository constructor(private val remoteDataSource: RemoteDataSource)
             instance ?: synchronized(this) {
                 instance ?: MainRepository(remoteData)
             }
+    }
+
+    override fun registerUser(userEntity: UserEntity?, password: String, activity: Activity) {
+        remoteDataSource.registerUser(userEntity, password, activity)
+    }
+
+    override fun loginUser(email: String?, password: String?, activity: Activity) {
+        remoteDataSource.loginUser(email, password, activity)
     }
 
     override fun getUserDetail(): LiveData<UserEntity?> {

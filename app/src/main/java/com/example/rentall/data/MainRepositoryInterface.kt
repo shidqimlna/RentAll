@@ -1,5 +1,6 @@
 package com.example.rentall.data
 
+import android.app.Activity
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import com.example.rentall.data.entity.ChatEntity
@@ -7,6 +8,8 @@ import com.example.rentall.data.entity.ProductEntity
 import com.example.rentall.data.entity.UserEntity
 
 interface MainRepositoryInterface {
+    fun registerUser(userEntity: UserEntity?, password: String, activity: Activity)
+    fun loginUser(email: String?, password: String?, activity: Activity)
     fun getUserDetail(): LiveData<UserEntity?>
     fun getProductList(query: String?): LiveData<List<ProductEntity?>>
     fun getUserProductList(): LiveData<List<ProductEntity?>>

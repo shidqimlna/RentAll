@@ -2,26 +2,31 @@ package com.example.rentall.ui.activity.account
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.example.rentall.R
+import com.example.rentall.di.Injection
 import com.example.rentall.ui.activity.main.MainActivity
+import com.example.rentall.viewmodel.MainViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
+    private lateinit var authStateListener: AuthStateListener
 
-    private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var firebaseListener: AuthStateListener
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        firebaseAuth = FirebaseAuth.getInstance()
+        viewModel = ViewModelProvider(
+            this,
+            Injection.provideViewModelFactory()
+        )[MainViewModel::class.java]
 
-        firebaseListener = AuthStateListener {
+        authStateListener = AuthStateListener {
             val firebaseUser = FirebaseAuth.getInstance().currentUser
             if (firebaseUser != null) {
                 val intent = Intent(this@LoginActivity, MainActivity::class.java)
@@ -32,24 +37,23 @@ class LoginActivity : AppCompatActivity() {
         }
 
         activity_login_btn_login.setOnClickListener {
-            val email: String = activity_login_et_email.text.toString()
-            val password: String = activity_login_et_password.text.toString()
-
-            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this) { task ->
-                if (!task.isSuccessful) {
-                    Toast.makeText(this@LoginActivity, "Login Failed", Toast.LENGTH_SHORT).show()
-                }
-            }
+            loginUser()
         }
+    }
+
+    private fun loginUser() {
+        val email: String = activity_login_et_email.text.toString()
+        val password: String = activity_login_et_password.text.toString()
+        viewModel.loginUser(email, password, this)
     }
 
     override fun onStart() {
         super.onStart()
-        firebaseAuth.addAuthStateListener(firebaseListener)
+        FirebaseAuth.getInstance().addAuthStateListener(authStateListener)
     }
 
     override fun onStop() {
         super.onStop()
-        firebaseAuth.removeAuthStateListener(firebaseListener)
+        FirebaseAuth.getInstance().removeAuthStateListener(authStateListener)
     }
 }

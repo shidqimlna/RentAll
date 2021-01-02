@@ -1,7 +1,8 @@
 package com.example.rentall.data.firebase
 
+import android.app.Activity
 import android.net.Uri
-import android.util.Log
+import android.widget.Toast
 import com.example.rentall.data.entity.ChatEntity
 import com.example.rentall.data.entity.ProductEntity
 import com.example.rentall.data.entity.UserEntity
@@ -13,9 +14,9 @@ import java.util.*
 
 class RemoteDataSource {
 
-    private val userId = FirebaseAuth.getInstance().currentUser!!.uid
-    private val userRef = FirebaseDatabase.getInstance().reference.child("Users")
-        .child(userId)
+//    private val userId = FirebaseAuth.getInstance().currentUser!!.uid
+//    private val userRef = FirebaseDatabase.getInstance().reference.child("Users")
+//        .child(userId)
 
     companion object {
         @Volatile
@@ -26,7 +27,46 @@ class RemoteDataSource {
             }
     }
 
+    fun registerUser(
+        userEntity: UserEntity?,
+        password: String,
+        activity: Activity
+    ) {
+        FirebaseAuth.getInstance()
+            .createUserWithEmailAndPassword(userEntity?.email.toString(), password)
+            .addOnCompleteListener(activity) { task ->
+                if (!task.isSuccessful || userEntity?.fullname.toString().isEmpty()) {
+                    Toast.makeText(activity, "sign up error", Toast.LENGTH_SHORT).show()
+                } else {
+                    val userId = FirebaseAuth.getInstance().currentUser!!.uid
+                    val userRef = FirebaseDatabase.getInstance().reference.child("Users")
+                        .child(userId)
+                    val userInfo: MutableMap<String, Any> = HashMap()
+                    userInfo["id"] = userId
+                    userInfo["email"] = userEntity?.email.toString()
+                    userInfo["fullname"] = userEntity?.fullname.toString()
+                    userInfo["phone"] = userEntity?.phone.toString()
+                    userInfo["address"] = userEntity?.address.toString()
+                    userRef.updateChildren(userInfo)
+                }
+            }
+    }
+
+    fun loginUser(email: String?, password: String?, activity: Activity) {
+        if (email != null && password != null) {
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(activity) { task ->
+                    if (!task.isSuccessful) {
+                        Toast.makeText(activity, "Login Failed", Toast.LENGTH_SHORT).show()
+                    }
+                }
+        }
+    }
+
     fun getUserDetail(callback: LoadUserDetailCallback) {
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+        val userRef = FirebaseDatabase.getInstance().reference.child("Users")
+            .child(userId)
         userRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 try {
@@ -44,6 +84,9 @@ class RemoteDataSource {
     }
 
     fun editAccount(userEntity: UserEntity?) {
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+        val userRef = FirebaseDatabase.getInstance().reference.child("Users")
+            .child(userId)
         val userInfo: MutableMap<String, Any> = HashMap()
         userInfo["fullname"] = userEntity?.fullname.toString()
         userInfo["phone"] = userEntity?.phone.toString()
@@ -80,9 +123,11 @@ class RemoteDataSource {
     }
 
     fun getUserProductList(callback: LoadProductsCallback) {
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+        val userRef = FirebaseDatabase.getInstance().reference.child("Users")
+            .child(userId)
         val listProduct: MutableList<ProductEntity?> = mutableListOf()
         var productEntity: ProductEntity?
-//        var userProduct: ProductEntity?
         var productRef: Query
         var userProductIdRef: DatabaseReference
         val userProductRef = userRef.child("Products")
@@ -127,9 +172,11 @@ class RemoteDataSource {
     }
 
     fun getUserChatList(callback: LoadProductsCallback) {
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+        val userRef = FirebaseDatabase.getInstance().reference.child("Users")
+            .child(userId)
         val listUserChats: MutableList<ProductEntity?> = mutableListOf()
         var productEntity: ProductEntity?
-//        var userProduct: ProductEntity?
         var productRef: Query
         var userChatIdRef: DatabaseReference
         val userChatRef = userRef.child("Chats")
@@ -174,6 +221,9 @@ class RemoteDataSource {
     }
 
     fun getUserRentingHistoryList(callback: LoadProductsCallback) {
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+        val userRef = FirebaseDatabase.getInstance().reference.child("Users")
+            .child(userId)
         val listUserRents = ArrayList<ProductEntity?>()
         val userRentRef =
             userRef.child("Rents")
@@ -196,7 +246,6 @@ class RemoteDataSource {
                                             val productEntity: ProductEntity? =
                                                 dataSnapshot2.getValue(ProductEntity::class.java)
                                             productEntity?.time = userRent?.time
-                                            Log.e("RDS IN", productEntity?.time.toString())
                                             listUserRents.add(productEntity)
                                         }
                                         callback.onAllProductsReceived(listUserRents)
@@ -218,58 +267,14 @@ class RemoteDataSource {
             override fun onCancelled(databaseError: DatabaseError) {
             }
         })
-
-//
-//        val listUserRents: MutableList<ProductEntity?> = mutableListOf()
-//        var productRef: Query
-//        val userRentRef = userRef.child("Rents")
-//        userRentRef.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                try {
-//                    if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
-//                        listUserRents.clear()
-//                        for (dataSnapshot1 in dataSnapshot.children) {
-//                            val productEntity: ProductEntity? =
-//                                dataSnapshot1.getValue(ProductEntity::class.java)
-//                            Log.e("RDS OUT", productEntity?.time.toString())
-//                            productRef =
-//                                FirebaseDatabase.getInstance().reference.child("Products")
-//                                    .orderByChild("id")
-//                                    .equalTo(productEntity?.id)
-//                            productRef.addValueEventListener(object : ValueEventListener {
-//                                override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                                    if (dataSnapshot.exists()) {
-//                                        for (dataSnapshot2 in dataSnapshot.children) {
-//                                            val rentProductEntity: ProductEntity? =
-//                                                dataSnapshot2.getValue(ProductEntity::class.java)
-//                                            rentProductEntity?.time = productEntity?.time
-//                                            Log.e("RDS IN", rentProductEntity?.time.toString())
-//                                            listUserRents.add(rentProductEntity)
-//                                        }
-//                                        callback.onAllProductsReceived(listUserRents)
-//                                    }
-//                                }
-//
-//                                override fun onCancelled(databaseError: DatabaseError) {}
-//                            })
-//                        }
-//                    }
-//                } catch (e: Exception) {
-//                    throw Exception(e.message.toString())
-//                }
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {}
-//        })
     }
 
     fun rentProduct(productEntity: ProductEntity?) {
-        val rentId =
-            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Rents")
-                .push().key
-        val userRentRef =
-            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Rents")
-                .child(rentId!!)
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+        val userRef = FirebaseDatabase.getInstance().reference.child("Users")
+            .child(userId)
+        val rentId = userRef.child("Rents").push().key
+        val userRentRef = userRef.child("Rents").child(rentId!!)
         val productInfo: MutableMap<String, Any> = HashMap()
         productInfo["id"] = productEntity?.id as String
         productInfo["time"] =
@@ -278,24 +283,24 @@ class RemoteDataSource {
     }
 
     fun chatOwner(productEntity: ProductEntity?) {
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+        val userRef = FirebaseDatabase.getInstance().reference.child("Users")
+            .child(userId)
         val productInfo: MutableMap<String, Any> = HashMap()
         productInfo["id"] = productEntity?.id as String
-        val userChatRef =
-            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats")
-                .child(productEntity.id as String)
+        val userChatRef = userRef.child(userId).child("Chats").child(productEntity.id as String)
         userChatRef.updateChildren(productInfo)
     }
 
     fun addProduct(productEntity: ProductEntity?, filePath: Uri?) {
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+        val userRef = FirebaseDatabase.getInstance().reference.child("Users")
+            .child(userId)
         val productId = FirebaseDatabase.getInstance().reference.child("Products").push().key
         val productRef =
             FirebaseDatabase.getInstance().reference.child("Products").child(productId!!)
-        val userProductRef =
-            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Products")
-                .child(productId)
-        val userChatRef =
-            FirebaseDatabase.getInstance().reference.child("Users").child(userId).child("Chats")
-                .child(productId)
+        val userProductRef = userRef.child("Products").child(productId)
+        val userChatRef = userRef.child("Chats").child(productId)
         val productImageRef =
             FirebaseStorage.getInstance().reference.child("images/products/$productId")
 
@@ -390,7 +395,6 @@ class RemoteDataSource {
     interface LoadChatMessagesCallback {
         fun onChatMessagesReceived(chatResponse: List<ChatEntity?>)
     }
-
 }
 
 

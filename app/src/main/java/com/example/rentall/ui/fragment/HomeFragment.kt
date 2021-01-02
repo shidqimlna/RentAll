@@ -65,8 +65,7 @@ class HomeFragment : Fragment() {
 
     private fun searchProduct() {
         val searchQuery = fragment_home_et_search.text.toString()
-        viewModel.setQuery(searchQuery)
-        viewModel.getProductList().observe(this, { products ->
+        viewModel.getProductList(searchQuery).observe(this, { products ->
             productAdapter.setData(products)
         })
     }

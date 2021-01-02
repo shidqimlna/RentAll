@@ -51,11 +51,6 @@ class RentHistoryAdapter : RecyclerView.Adapter<RentHistoryAdapter.ListViewHolde
                     item_rent_history_tv_price.text = it.price
                     item_rent_history_tv_owner.text = it.owner
                     item_rent_history_tv_time.text = it.time
-//                    item_rent_history_cardView.setOnClickListener {
-//                        val intent = Intent(context, DetailProductActivity::class.java)
-//                        intent.putExtra(DetailProductActivity.EXTRA_PRODUCT, productEntity.id)
-//                        context.startActivity(intent)
-//                    }
                 }
             }
         }

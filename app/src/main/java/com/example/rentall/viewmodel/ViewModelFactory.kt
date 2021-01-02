@@ -10,15 +10,9 @@ class ViewModelFactory constructor(private val repository: MainRepository) :
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         with(modelClass) {
             return when {
-//                isAssignableFrom(ChatViewModel::class.java) -> {
-//                    ChatViewModel(repository) as T
-//                }
                 isAssignableFrom(MainViewModel::class.java) -> {
                     MainViewModel(repository) as T
                 }
-//                isAssignableFrom(FavoriteViewModel::class.java) -> {
-//                    FavoriteViewModel(repository) as T
-//                }
                 else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
         }

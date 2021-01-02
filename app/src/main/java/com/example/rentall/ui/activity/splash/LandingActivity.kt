@@ -13,16 +13,13 @@ import kotlinx.android.synthetic.main.activity_landing.*
 
 class LandingActivity : AppCompatActivity() {
 
-    private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var firebaseListener: AuthStateListener
+    private lateinit var authStateListener: AuthStateListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing)
 
-        firebaseAuth = FirebaseAuth.getInstance()
-
-        firebaseListener = AuthStateListener {
+        authStateListener = AuthStateListener {
             val firebaseUser = FirebaseAuth.getInstance().currentUser
             if (firebaseUser != null) {
                 val intent = Intent(this@LandingActivity, MainActivity::class.java)
@@ -45,11 +42,11 @@ class LandingActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        firebaseAuth.addAuthStateListener(firebaseListener)
+        FirebaseAuth.getInstance().addAuthStateListener(authStateListener)
     }
 
     override fun onStop() {
         super.onStop()
-        firebaseAuth.removeAuthStateListener(firebaseListener)
+        FirebaseAuth.getInstance().removeAuthStateListener(authStateListener)
     }
 }
