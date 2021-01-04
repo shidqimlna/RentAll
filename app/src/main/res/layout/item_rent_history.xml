@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="180dp"
     android:layout_margin="8dp"
-    app:cardBackgroundColor="@color/colorDarkWhite"
+    app:cardBackgroundColor="@color/colorPrimary"
     app:cardCornerRadius="8dp"
     app:cardElevation="6dp">
 
@@ -47,6 +47,7 @@
             <TextView
                 android:id="@+id/item_rent_history_tv_name"
                 style="@style/CodeFontBold"
+                android:textColor="@color/colorWhite"
                 android:layout_margin="8dp"
                 android:ellipsize="end"
                 android:maxLines="2" />
@@ -54,6 +55,7 @@
             <TextView
                 android:id="@+id/item_rent_history_tv_price"
                 style="@style/CodeFontRegular"
+                android:textColor="@color/colorWhite"
                 android:layout_margin="4dp"
                 android:ellipsize="end"
                 android:maxLines="2" />
@@ -61,6 +63,7 @@
             <TextView
                 android:id="@+id/item_rent_history_tv_owner"
                 style="@style/CodeFontRegular"
+                android:textColor="@color/colorWhite"
                 android:layout_margin="4dp"
                 android:ellipsize="end"
                 android:maxLines="2" />
@@ -68,6 +71,7 @@
             <TextView
                 android:id="@+id/item_rent_history_tv_time"
                 style="@style/CodeFontRegular"
+                android:textColor="@color/colorWhite"
                 android:layout_margin="4dp"
                 android:ellipsize="end"
                 android:maxLines="2" />

@@ -3,49 +3,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
+
     tools:context=".ui.activity.product.EditProductActivity">
 
-    <ImageView
-        android:id="@+id/activity_edit_product_iv_productimg"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/activity_edit_product_btn_addimg"
-        style="@style/CodeFontRegular"
-        android:layout_marginTop="12dp"
-        android:text="add img" />
+        <ImageView
+            android:id="@+id/activity_edit_product_iv_productimg"
+            android:layout_width="350dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:background="@color/colorWhiteOpacity"/>
 
-    <EditText
-        android:id="@+id/activity_edit_product_et_name"
-        style="@style/CodeFontRegular"
-        android:hint="Product Name"
-        android:inputType="text" />
+        <Button
+            android:id="@+id/activity_edit_product_btn_addimg"
+            style="@style/CodeFontRegular"
+            android:layout_width="350dp"
+            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="add img" />
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/activity_edit_product_et_price"
-        style="@style/CodeFontRegular"
-        android:hint="Price"
-        android:inputType="number" />
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp">
+        <EditText
+            android:id="@+id/activity_edit_product_et_name"
+            style="@style/CodeFontRegular"
+            android:hint="Product Name"
+            android:inputType="text" />
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/activity_edit_product_et_desciption"
-        style="@style/CodeFontRegular"
-        android:layout_height="50dp"
-        android:hint="Description"
-        android:inputType="text" />
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp">
+        <EditText
+            android:id="@+id/activity_edit_product_et_price"
+            style="@style/CodeFontRegular"
+            android:hint="Price"
+            android:inputType="number" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/activity_edit_product_btn_submit"
-        style="@style/CodeFontRegular"
-        android:layout_marginTop="12dp"
-        android:text="Submit" />
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp">
+        <EditText
+            android:id="@+id/activity_edit_product_et_desciption"
+            style="@style/CodeFontRegular"
+            android:layout_height="80dp"
+            android:hint="Description"
+            android:inputType="text" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/activity_edit_product_btn_delete"
-        style="@style/CodeFontRegular"
-        android:layout_marginTop="12dp"
-        android:text="Delete" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center">
+        <Button
+            android:id="@+id/activity_edit_product_btn_delete"
+            style="@style/CodeFontRegular"
+            android:layout_width="179dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Delete" />
 
+        <Button
+            android:id="@+id/activity_edit_product_btn_submit"
+            style="@style/CodeFontRegular"
+            android:layout_width="179dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Update" />
+    </LinearLayout>
 </LinearLayout>

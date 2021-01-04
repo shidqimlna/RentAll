@@ -4,39 +4,78 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context=".ui.activity.product.DetailProductActivity">
 
     <ImageView
         android:id="@+id/activity_detail_product_iv_productimg"
-        android:layout_width="match_parent"
-        android:layout_height="150dp" />
+        android:layout_width="417dp"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:background="@color/colorWhiteOpacity"
+        android:layout_height="200dp" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
     <TextView
         android:id="@+id/activity_detail_product_tv_name"
-        style="@style/CodeFontRegular" />
-
+        style="@style/CodeFontRegular"
+        android:layout_marginLeft="10dp"
+        android:textSize="25sp"
+        android:text="Product Name"
+        android:textColor="@color/colorWhite"/>
     <TextView
         android:id="@+id/activity_detail_product_tv_price"
-        style="@style/CodeFontRegular" />
+        style="@style/CodeFontRegular"
+        android:layout_marginLeft="195dp"
+        android:text="Price"
+        android:textSize="22sp"
+        android:textColor="@color/colorWhiteOpacity"/>
+</LinearLayout>
 
     <TextView
         android:id="@+id/activity_detail_product_tv_owner"
-        style="@style/CodeFontRegular" />
+        style="@style/CodeFontRegular"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="Owner"
+        android:textSize="22sp"
+        android:textColor="@color/colorWhite"/>
 
     <TextView
         android:id="@+id/activity_detail_product_tv_desciption"
-        style="@style/CodeFontRegular" />
+        style="@style/CodeFontRegular"
+        android:text="Description Product"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"/>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
     <Button
         android:id="@+id/activity_detail_product_btn_chat"
         style="@style/CodeFontRegular"
-        android:layout_marginTop="12dp"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
         android:text="Chat" />
 
     <Button
         android:id="@+id/activity_detail_product_btn_rent"
         style="@style/CodeFontRegular"
-        android:layout_marginTop="12dp"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:text="Rent" />
+</RelativeLayout>
 
 </LinearLayout>

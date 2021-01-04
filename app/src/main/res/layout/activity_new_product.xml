@@ -3,42 +3,80 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     tools:context=".ui.activity.product.NewProductActivity">
 
-    <ImageView
-        android:id="@+id/activity_new_product_iv_productimg"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/activity_new_product_iv_productimg"
+            android:layout_width="350dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:background="@color/colorWhiteOpacity"/>
 
-    <Button
-        android:id="@+id/activity_new_product_btn_addimg"
-        style="@style/CodeFontRegular"
-        android:layout_marginTop="12dp"
-        android:text="add img" />
+        <Button
+            android:id="@+id/activity_new_product_btn_addimg"
+            style="@style/CodeFontRegular"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:text="add img" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:orientation="vertical">
     <EditText
         android:id="@+id/activity_new_product_et_name"
         style="@style/CodeFontRegular"
         android:hint="Product Name"
         android:inputType="text" />
+</LinearLayout>
 
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:orientation="vertical">
     <EditText
         android:id="@+id/activity_new_product_et_price"
         style="@style/CodeFontRegular"
         android:hint="Price"
         android:inputType="number" />
+</LinearLayout>
 
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:orientation="vertical">
     <EditText
         android:id="@+id/activity_new_product_et_desciption"
         style="@style/CodeFontRegular"
-        android:layout_height="50dp"
+        android:layout_height="80dp"
         android:hint="Description"
         android:inputType="text" />
+</LinearLayout>
 
     <Button
         android:id="@+id/activity_new_product_btn_submit"
         style="@style/CodeFontRegular"
+        android:layout_width="350dp"
+        android:layout_gravity="center"
         android:layout_marginTop="12dp"
         android:text="Submit" />
 

@@ -17,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:text="december 23, 2020"
             android:layout_marginRight="10dp" />
 
         <LinearLayout
@@ -29,12 +30,14 @@
             <TextView
                 android:id="@+id/item_chat_tv_name_mine"
                 style="@style/textview_message_left"
+                android:text="smith"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/item_chat_tv_message_mine"
                 style="@style/textview_message_right"
+                android:text="very nice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

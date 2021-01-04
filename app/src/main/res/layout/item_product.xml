@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="180dp"
     android:layout_margin="8dp"
-    app:cardBackgroundColor="@color/colorDarkWhite"
+    app:cardBackgroundColor="@color/colorPrimary"
     app:cardCornerRadius="8dp"
     app:cardElevation="6dp">
 
@@ -48,6 +48,7 @@
                 android:id="@+id/item_user_product_tv_name"
                 style="@style/CodeFontBold"
                 android:layout_margin="8dp"
+                android:textColor="@color/colorWhite"
                 android:ellipsize="end"
                 android:maxLines="2" />
 
@@ -56,6 +57,7 @@
                 style="@style/CodeFontRegular"
                 android:layout_margin="4dp"
                 android:ellipsize="end"
+                android:textColor="@color/colorWhite"
                 android:maxLines="2" />
 
             <TextView
@@ -63,6 +65,7 @@
                 style="@style/CodeFontRegular"
                 android:layout_margin="4dp"
                 android:ellipsize="end"
+                android:textColor="@color/colorWhite"
                 android:maxLines="2" />
 
         </LinearLayout>
