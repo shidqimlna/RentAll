@@ -4,31 +4,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.fragment.HomeFragment">
+    tools:context=".HomeFragment">
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ImageButton
+        android:id="@+id/fragment_home_btn_profile"
+        android:layout_marginLeft="5sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:src="@drawable/ic_account"/>
 
     <TextView
         android:id="@+id/fragment_home_tv_username"
+        android:layout_marginLeft="5sp"
+        android:textColor="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/fragment_home_btn_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PROFILE" />
+    <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/fragment_home_et_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Ex. Mobil" />
+        <EditText
+            android:id="@+id/fragment_home_et_search"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="Ex. Mobil" />
 
-    <Button
+    <ImageButton
         android:id="@+id/fragment_home_btn_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SEARCH" />
+        android:layout_width="match_parent"
+        android:layout_weight="5"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_baseline_search_24"/>
 
+</LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_home_rv"
         android:layout_width="match_parent"
