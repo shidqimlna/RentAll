@@ -5,6 +5,7 @@ import android.net.Uri
 import android.widget.Toast
 import com.example.rentall.data.entity.ChatEntity
 import com.example.rentall.data.entity.ProductEntity
+import com.example.rentall.data.entity.RentEntity
 import com.example.rentall.data.entity.UserEntity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -13,10 +14,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class RemoteDataSource {
-
-//    private val userId = FirebaseAuth.getInstance().currentUser!!.uid
-//    private val userRef = FirebaseDatabase.getInstance().reference.child("Users")
-//        .child(userId)
 
     companion object {
         @Volatile
@@ -220,11 +217,11 @@ class RemoteDataSource {
         })
     }
 
-    fun getUserRentingHistoryList(callback: LoadProductsCallback) {
+    fun getUserRentingHistoryList(callback: LoadRentsCallback) {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
         val userRef = FirebaseDatabase.getInstance().reference.child("Users")
             .child(userId)
-        val listUserRents = ArrayList<ProductEntity?>()
+        val listUserRents = ArrayList<RentEntity?>()
         val userRentRef =
             userRef.child("Rents")
         userRentRef.addValueEventListener(object : ValueEventListener {
@@ -233,25 +230,39 @@ class RemoteDataSource {
                     if (dataSnapshot.exists() && dataSnapshot.childrenCount > 0) {
                         listUserRents.clear()
                         for (dataSnapshot1 in dataSnapshot.children) {
-                            val userRent: ProductEntity? =
-                                dataSnapshot1.getValue(ProductEntity::class.java)
-                            val productRef: Query =
-                                FirebaseDatabase.getInstance().reference.child("Products")
-                                    .orderByChild("id")
+                            val userRent: RentEntity? =
+                                dataSnapshot1.getValue(RentEntity::class.java)
+                            val rentRef: Query =
+                                FirebaseDatabase.getInstance().reference.child("Rents")
+                                    .child(userId)
+                                    .orderByKey()
                                     .equalTo(userRent?.id)
-                            productRef.addValueEventListener(object : ValueEventListener {
+                            rentRef.addValueEventListener(object : ValueEventListener {
                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                                     if (dataSnapshot.exists()) {
                                         for (dataSnapshot2 in dataSnapshot.children) {
-                                            val productEntity: ProductEntity? =
-                                                dataSnapshot2.getValue(ProductEntity::class.java)
-                                            productEntity?.time = userRent?.time
-                                            listUserRents.add(productEntity)
+                                            val rentEntity: RentEntity? =
+                                                dataSnapshot2.getValue(RentEntity::class.java)
+                                            val productRef: Query =
+                                                FirebaseDatabase.getInstance().reference.child("Products")
+                                                    .orderByChild("id")
+                                                    .equalTo(rentEntity?.id)
+                                            productRef.addValueEventListener(object :
+                                                ValueEventListener {
+                                                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                    if (dataSnapshot.exists()) {
+                                                        for (dataSnapshot2 in dataSnapshot.children) {
+                                                            rentEntity?.productEntity =
+                                                                dataSnapshot2.getValue(ProductEntity::class.java)
+                                                            listUserRents.add(rentEntity)
+                                                        }
+                                                        callback.onAllRentsReceived(listUserRents)
+                                                    }
+                                                }
+
+                                                override fun onCancelled(databaseError: DatabaseError) {}
+                                            })
                                         }
-                                        callback.onAllProductsReceived(listUserRents)
-                                    } else {
-                                        val userRentIdRef = userRentRef.child(userRent?.id!!)
-                                        userRentIdRef.removeValue()
                                     }
                                 }
 
@@ -264,8 +275,7 @@ class RemoteDataSource {
                 }
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-            }
+            override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 
@@ -274,12 +284,19 @@ class RemoteDataSource {
         val userRef = FirebaseDatabase.getInstance().reference.child("Users")
             .child(userId)
         val rentId = userRef.child("Rents").push().key
-        val userRentRef = userRef.child("Rents").child(rentId!!)
+        val rentRef =
+            FirebaseDatabase.getInstance().reference.child("Rents").child(userId).child(rentId!!)
+        val userRentRef = userRef.child("Rents").child(rentId)
+
         val productInfo: MutableMap<String, Any> = HashMap()
         productInfo["id"] = productEntity?.id as String
         productInfo["time"] =
-            SimpleDateFormat("MMM dd, yyyy 'at' hh:mm:ss a").format(Calendar.getInstance().time)
-        userRentRef.updateChildren(productInfo)
+            SimpleDateFormat("MMM dd, yyyy hh:mm a").format(Calendar.getInstance().time)
+        rentRef.updateChildren(productInfo)
+
+        val productInfo2: MutableMap<String, Any> = HashMap()
+        productInfo2["id"] = rentId
+        userRentRef.updateChildren(productInfo2)
     }
 
     fun chatOwner(productEntity: ProductEntity?) {
@@ -288,7 +305,7 @@ class RemoteDataSource {
             .child(userId)
         val productInfo: MutableMap<String, Any> = HashMap()
         productInfo["id"] = productEntity?.id as String
-        val userChatRef = userRef.child(userId).child("Chats").child(productEntity.id as String)
+        val userChatRef = userRef.child("Chats").child(productEntity.id as String)
         userChatRef.updateChildren(productInfo)
     }
 
@@ -356,7 +373,8 @@ class RemoteDataSource {
         val messageInfoMap: HashMap<String, Any> = HashMap()
         messageInfoMap["name"] = chatEntity.name.toString()
         messageInfoMap["message"] = chatEntity.message.toString()
-        messageInfoMap["time"] = chatEntity.time.toString()
+        messageInfoMap["time"] =
+            SimpleDateFormat("MMM dd, yyyy hh:mm a").format(Calendar.getInstance().time)
         chatRef.updateChildren(messageInfoMap)
     }
 
@@ -386,6 +404,10 @@ class RemoteDataSource {
 
     interface LoadProductsCallback {
         fun onAllProductsReceived(productResponse: List<ProductEntity?>)
+    }
+
+    interface LoadRentsCallback {
+        fun onAllRentsReceived(rentResponse: List<RentEntity?>)
     }
 
     interface LoadUserDetailCallback {

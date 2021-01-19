@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import com.example.rentall.data.entity.ChatEntity
 import com.example.rentall.data.entity.ProductEntity
+import com.example.rentall.data.entity.RentEntity
 import com.example.rentall.data.entity.UserEntity
 
 interface MainRepositoryInterface {
@@ -14,7 +15,7 @@ interface MainRepositoryInterface {
     fun getProductList(query: String?): LiveData<List<ProductEntity?>>
     fun getUserProductList(): LiveData<List<ProductEntity?>>
     fun getUserChatList(): LiveData<List<ProductEntity?>>
-    fun getUserRentingHistoryList(): LiveData<List<ProductEntity?>>
+    fun getUserRentingHistoryList(): LiveData<List<RentEntity?>>
     fun editAccount(userEntity: UserEntity?)
     fun addProduct(productEntity: ProductEntity?, filePath: Uri?)
     fun editProduct(productEntity: ProductEntity?, filePath: Uri?)

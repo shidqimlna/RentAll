@@ -14,9 +14,6 @@ import com.example.rentall.ui.activity.product.DetailProductActivity
 import com.example.rentall.ui.adapter.ChatAdapter
 import com.example.rentall.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_chat.*
-import java.text.SimpleDateFormat
-import java.util.*
-
 
 class ChatActivity : AppCompatActivity() {
 
@@ -74,9 +71,6 @@ class ChatActivity : AppCompatActivity() {
             val chatEntity = ChatEntity()
             chatEntity.message = activity_chat_et_text.text.toString()
             chatEntity.name = username
-            chatEntity.time = SimpleDateFormat("MMM dd, yyyy 'at' hh:mm:ss a").format(
-                Calendar.getInstance().time
-            )
             viewModel.sendMessage(chatEntity, productEntity)
         }
     }

@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rentall.R
 import com.example.rentall.data.entity.UserEntity
 import com.example.rentall.di.Injection
@@ -16,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_edit_account.*
 import kotlinx.android.synthetic.main.activity_user_account.*
-
 
 class UserAccountActivity : AppCompatActivity() {
 
@@ -43,7 +42,7 @@ class UserAccountActivity : AppCompatActivity() {
 
         with(activity_user_acc_rv_product) {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = GridLayoutManager(context, 2)
             adapter = userProductAdapter
         }
 
@@ -69,7 +68,7 @@ class UserAccountActivity : AppCompatActivity() {
 
     private fun loadData(userEntity: UserEntity?) {
         activity_user_acc_tv_email.text = userEntity?.email
-        activity_user_acc_tv_fullname.text = userEntity?.fullname
+        activity_user_acc_tv_username.text = userEntity?.fullname
         activity_user_acc_tv_address.text = userEntity?.address
         activity_user_acc_tv_phone.text = userEntity?.phone
     }

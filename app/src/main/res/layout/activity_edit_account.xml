@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorDarkestWhite"
     tools:context=".ui.activity.account.EditAccountActivity">
-
 
     <LinearLayout
         android:layout_width="300dp"
@@ -26,7 +25,7 @@
             android:layout_marginVertical="24dp"
             android:gravity="center"
             android:text="Edit Account"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorPrimary"
             android:textSize="32sp" />
 
         <LinearLayout
@@ -45,7 +44,7 @@
                 android:id="@+id/activity_edit_acc_et_fullname"
                 style="@style/CodeFontRegular"
                 android:autofillHints="fullname"
-                android:hint="Full Name"
+                android:hint="Username"
                 android:inputType="text" />
 
         </LinearLayout>
@@ -96,7 +95,7 @@
             android:id="@+id/activity_edit_acc_btn_edit"
             style="@style/CodeFontRegular"
             android:layout_marginTop="12dp"
-            android:background="@color/colorWhite"
+            android:background="@color/colorAccent"
             android:text="Submit"
             android:textColor="@color/colorPrimary" />
 

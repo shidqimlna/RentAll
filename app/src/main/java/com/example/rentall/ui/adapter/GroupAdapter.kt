@@ -13,7 +13,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.item_product.view.*
 
-
 class GroupAdapter : RecyclerView.Adapter<GroupAdapter.ListViewHolder>() {
     private val listProducts = ArrayList<ProductEntity?>()
     private val storageReference: StorageReference = FirebaseStorage.getInstance().reference

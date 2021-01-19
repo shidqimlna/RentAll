@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorDarkestWhite"
     tools:context=".ui.activity.splash.LandingActivity">
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:id="@+id/activity_landing_btn_login"
             style="@style/CodeFontRegular"
             android:layout_marginVertical="8dp"
-            android:background="@color/colorWhite"
+            android:background="@color/colorAccent"
             android:text="Login"
             android:textColor="@color/colorPrimary" />
 
@@ -31,7 +31,7 @@
             android:id="@+id/activity_landing_btn_register"
             style="@style/CodeFontRegular"
             android:layout_marginVertical="8dp"
-            android:background="@color/colorWhite"
+            android:background="@color/colorAccent"
             android:text="Register"
             android:textColor="@color/colorPrimary" />
 

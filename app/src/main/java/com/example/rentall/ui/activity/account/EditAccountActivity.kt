@@ -11,7 +11,6 @@ import com.example.rentall.viewmodel.MainViewModel
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_edit_account.*
 
-
 class EditAccountActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel

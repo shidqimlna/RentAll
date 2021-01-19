@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.rentall.data.entity.ChatEntity
 import com.example.rentall.data.entity.ProductEntity
+import com.example.rentall.data.entity.RentEntity
 import com.example.rentall.data.entity.UserEntity
 import com.example.rentall.data.firebase.RemoteDataSource
 import com.example.rentall.data.firebase.RemoteDataSource.*
@@ -75,11 +76,11 @@ class MainRepository constructor(private val remoteDataSource: RemoteDataSource)
         return productResult
     }
 
-    override fun getUserRentingHistoryList(): LiveData<List<ProductEntity?>> {
-        val productResult = MutableLiveData<List<ProductEntity?>>()
-        remoteDataSource.getUserRentingHistoryList(object : LoadProductsCallback {
-            override fun onAllProductsReceived(productResponse: List<ProductEntity?>) {
-                productResult.postValue(productResponse)
+    override fun getUserRentingHistoryList(): LiveData<List<RentEntity?>> {
+        val productResult = MutableLiveData<List<RentEntity?>>()
+        remoteDataSource.getUserRentingHistoryList(object : LoadRentsCallback {
+            override fun onAllRentsReceived(rentResponse: List<RentEntity?>) {
+                productResult.postValue(rentResponse)
             }
         })
         return productResult

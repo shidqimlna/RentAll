@@ -13,7 +13,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import kotlinx.android.synthetic.main.activity_register.*
 
-
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var authStateListener: AuthStateListener
@@ -47,7 +46,7 @@ class RegisterActivity : AppCompatActivity() {
         val userEntity: UserEntity? = UserEntity()
         val password = activity_register_et_password.text.toString()
         userEntity?.email = activity_register_et_email.text.toString()
-        userEntity?.fullname = activity_register_et_fullname.text.toString()
+        userEntity?.fullname = activity_register_et_username.text.toString()
         userEntity?.phone = activity_register_et_phone.text.toString()
         userEntity?.address = activity_register_et_address.text.toString()
         viewModel.registerUser(userEntity, password, this)

@@ -37,9 +37,9 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.ListViewHolder>() {
         fun bindView(chatEntity: ChatEntity?) {
             chatEntity?.let {
                 with(itemView) {
-                        item_chat_tv_name_mine.text = it.name
-                        item_chat_tv_message_mine.text = it.message
-                        item_chat_tv_time_mine.text = it.time
+                    item_chat_tv_name.text = it.name
+                    item_chat_tv_message.text = it.message
+                    item_chat_tv_time.text = it.time
                 }
             }
         }

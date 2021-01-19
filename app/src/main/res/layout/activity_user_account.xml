@@ -1,156 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@color/colorDarkestWhite"
     tools:context=".ui.activity.account.UserAccountActivity">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:src="@drawable/ic_account"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:visibility="visible"
-        android:background="@color/colorPrimary"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Username"
-            style="@style/CodeFontRegular"/>
-
-        <TextView
-            android:layout_weight="1"
-            android:gravity="end"
-            android:layout_marginRight="3dp"
-            android:id="@+id/activity_user_acc_tv_fullname"
-            style="@style/CodeFontRegular" />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:visibility="visible"
-        android:background="@color/colorPrimary"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-     <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Email"
-            style="@style/CodeFontRegular" />
-
-        <TextView
-            android:layout_weight="1"
-            android:id="@+id/activity_user_acc_tv_email"
-            android:layout_marginRight="3dp"
-            android:gravity="end"
-            style="@style/CodeFontRegular"/>
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:visibility="visible"
-        android:background="@color/colorPrimary"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Address"
-            style="@style/CodeFontRegular"/>
-
-        <TextView
-            android:id="@+id/activity_user_acc_tv_address"
-            android:gravity="end"
-            android:layout_marginRight="3dp"
-            android:layout_weight="1"
-            style="@style/CodeFontRegular" />
-
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:visibility="visible"
-        android:background="@color/colorPrimary"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Phone"
-            style="@style/CodeFontRegular"/>
-
-        <TextView
-            android:gravity="end"
-            android:layout_marginRight="3dp"
-            android:layout_weight="1"
-            android:id="@+id/activity_user_acc_tv_phone"
-            style="@style/CodeFontRegular" />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:visibility="visible"
-        android:background="@color/colorPrimary"/>
-
-    <LinearLayout
+        android:id="@+id/activity_user_acc_btn_signout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:layout_alignParentEnd="true"
+        android:layout_margin="12dp"
+        android:src="@drawable/ic_logout" />
 
-        <Button
+    <FrameLayout
+        android:id="@+id/activity_user_acc_container_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="16dp">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/ic_account" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/activity_user_acc_btn_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit Account" />
+            android:layout_gravity="end|bottom"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_edit" />
 
-        <Button
-            android:id="@+id/activity_user_acc_btn_signout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sign Out" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/activity_user_acc_container_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/activity_user_acc_container_image"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/activity_user_acc_tv_username"
+            style="@style/CodeFontBold"
+            android:layout_margin="4dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/activity_user_acc_tv_email"
+            style="@style/CodeFontRegular"
+            android:layout_margin="4dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/activity_user_acc_tv_address"
+            style="@style/CodeFontRegular"
+            android:layout_margin="4dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/activity_user_acc_tv_phone"
+            style="@style/CodeFontItallic"
+            android:layout_margin="4dp"
+            android:gravity="center" />
 
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/activity_user_acc_fab_add"
         android:layout_width="wrap_content"
-        android:layout_gravity="center"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="12dp"
         android:src="@drawable/ic_add" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_user_acc_rv_product"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/activity_user_acc_container_tv" />
 
-</LinearLayout>
+</RelativeLayout>

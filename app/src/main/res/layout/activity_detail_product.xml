@@ -1,81 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorDarkestWhite"
     tools:context=".ui.activity.product.DetailProductActivity">
 
     <ImageView
         android:id="@+id/activity_detail_product_iv_productimg"
-        android:layout_width="417dp"
-        android:layout_marginTop="30dp"
-        android:layout_gravity="center"
-        android:background="@color/colorWhiteOpacity"
-        android:layout_height="200dp" />
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/colorWhite" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/activity_detail_product_container_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp">
-    <TextView
-        android:id="@+id/activity_detail_product_tv_name"
-        style="@style/CodeFontRegular"
-        android:layout_marginLeft="10dp"
-        android:textSize="25sp"
-        android:text="Product Name"
-        android:textColor="@color/colorWhite"/>
-    <TextView
-        android:id="@+id/activity_detail_product_tv_price"
-        style="@style/CodeFontRegular"
-        android:layout_marginLeft="195dp"
-        android:text="Price"
-        android:textSize="22sp"
-        android:textColor="@color/colorWhiteOpacity"/>
-</LinearLayout>
+        android:layout_below="@id/activity_detail_product_iv_productimg"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:id="@+id/activity_detail_product_tv_name"
+            style="@style/CodeFontBold"
+            android:layout_margin="8dp"
+            android:layout_weight="2"
+            android:text="Product Name" />
+
+        <TextView
+            android:id="@+id/activity_detail_product_tv_price"
+            style="@style/CodeFontItallic"
+            android:layout_margin="8dp"
+            android:layout_weight="8"
+            android:text="Price" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/activity_detail_product_tv_owner"
+        android:layout_below="@id/activity_detail_product_container_name"
         style="@style/CodeFontRegular"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:text="Owner"
-        android:textSize="22sp"
-        android:textColor="@color/colorWhite"/>
+        android:layout_margin="8dp"
+        android:text="Owner" />
 
     <TextView
         android:id="@+id/activity_detail_product_tv_desciption"
+        android:layout_below="@id/activity_detail_product_tv_owner"
         style="@style/CodeFontRegular"
-        android:text="Description Product"
-        android:textColor="@color/colorWhite"
-        android:textSize="18sp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp"/>
+        android:layout_margin="8dp"
+        android:text="Description Product" />
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
-    <Button
-        android:id="@+id/activity_detail_product_btn_chat"
-        style="@style/CodeFontRegular"
-        android:layout_width="210dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:text="Chat" />
+        android:layout_alignParentBottom="true">
 
-    <Button
-        android:id="@+id/activity_detail_product_btn_rent"
-        style="@style/CodeFontRegular"
-        android:layout_width="210dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:text="Rent" />
+        <Button
+            android:id="@+id/activity_detail_product_btn_chat"
+            style="@style/CodeFontRegular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorGreen"
+            android:text="Chat" />
+
+        <Button
+            android:id="@+id/activity_detail_product_btn_rent"
+            style="@style/CodeFontRegular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:text="Rent" />
+
+    </LinearLayout>
+
 </RelativeLayout>
-
-</LinearLayout>

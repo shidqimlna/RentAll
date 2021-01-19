@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-
     <color name="colorPrimary">#1b2a4a</color>
     <color name="colorPrimaryDark">#0d264f</color>
     <color name="colorAccent">#5bc0cc</color>
@@ -11,4 +8,6 @@
     <color name="colorDarkestWhite">#F0F0F0</color>
     <color name="colorWhiteOpacity">#80FFFFFF</color>
     <color name="colorGrey">#666666</color>
+    <color name="colorGreen">#50C878</color>
+    <color name="colorRed">#e0115f</color>
 </resources>

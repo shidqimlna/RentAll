@@ -2,56 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <LinearLayout
-        android:id="@+id/item_chat_container_mine"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="left"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
-            android:background="@drawable/right_node_bg"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/item_chat_tv_name_mine"
-                style="@style/textview_message_left"
-                android:text="smith"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/item_chat_tv_message_mine"
-                style="@style/textview_message_right"
-                android:text="very nice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/purple_node_bg" />
-        
         <TextView
-            android:id="@+id/item_chat_tv_time_mine"
-            style="@style/info_textviews"
-            android:layout_width="wrap_content"
+            android:id="@+id/item_chat_tv_name"
+            style="@style/CodeFontRegular"
+            android:text="smith" />
+
+        <TextView
+            android:id="@+id/item_chat_tv_time"
+            style="@style/CodeFontRegularGrey"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="december 23, 2020"
-            android:layout_marginLeft="5dp" />
-        
+            android:layout_width="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="december 23, 2020" />
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:src="@drawable/chat_container_tail" />
+
+        <TextView
+            android:id="@+id/item_chat_tv_message"
+            style="@style/CodeFontRegular"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/chat_container_bubble"
+            android:layout_width="wrap_content"
+            android:padding="8dp"
+            android:textColor="@color/colorWhite" />
+
+    </RelativeLayout>
 </LinearLayout>

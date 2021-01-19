@@ -4,35 +4,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorWhite"
+    android:background="@color/colorDarkestWhite"
     tools:context=".ui.fragment.HomeFragment">
 
     <LinearLayout
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:padding="32dp"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageButton
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fragment_home_tv_greeting"
+                style="@style/CodeFontRegular"
+                android:textColor="@color/colorWhite" />
+
+            <TextView
+                android:id="@+id/fragment_home_tv_username"
+                style="@style/CodeFontBold"
+                android:textColor="@color/colorWhite" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_weight="1"
             android:id="@+id/fragment_home_btn_profile"
-            android:layout_marginLeft="5sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:src="@drawable/ic_account"/>
+            android:src="@drawable/ic_account_large" />
 
-        <TextView
-            android:id="@+id/fragment_home_tv_username"
-            android:layout_marginLeft="5sp"
-            android:textColor="@color/colorWhite"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="8dp">
 
         <EditText
             android:id="@+id/fragment_home_et_search"
@@ -46,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_weight="5"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_baseline_search_24"/>
+            android:src="@drawable/ic_search" />
 
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView

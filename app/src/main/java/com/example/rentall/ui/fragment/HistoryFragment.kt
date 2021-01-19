@@ -35,8 +35,8 @@ class HistoryFragment : Fragment() {
                 Injection.provideViewModelFactory()
             )[MainViewModel::class.java]
 
-            viewModel.getUserRentingHistoryList().observe(this, { products ->
-                rentHistoryAdapter.setData(products)
+            viewModel.getUserRentingHistoryList().observe(this, { rents ->
+                rentHistoryAdapter.setData(rents)
             })
 
             with(fragment_history_rv_product) {

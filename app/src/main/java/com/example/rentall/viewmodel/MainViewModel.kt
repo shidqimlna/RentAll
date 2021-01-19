@@ -7,67 +7,47 @@ import androidx.lifecycle.ViewModel
 import com.example.rentall.data.MainRepository
 import com.example.rentall.data.entity.ChatEntity
 import com.example.rentall.data.entity.ProductEntity
+import com.example.rentall.data.entity.RentEntity
 import com.example.rentall.data.entity.UserEntity
 
 class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
-    fun registerUser(userEntity: UserEntity?, password: String, activity: Activity) {
-        return mainRepository.registerUser(userEntity, password, activity)
-    }
 
-    fun loginUser(email: String?, password: String?, activity: Activity) {
-        return mainRepository.loginUser(email, password, activity)
-    }
+    fun registerUser(userEntity: UserEntity?, password: String, activity: Activity) =
+        mainRepository.registerUser(userEntity, password, activity)
 
-    fun getProductList(query: String?): LiveData<List<ProductEntity?>> {
-        return mainRepository.getProductList(query)
-    }
+    fun loginUser(email: String?, password: String?, activity: Activity) =
+        mainRepository.loginUser(email, password, activity)
 
-    fun getUserProductList(): LiveData<List<ProductEntity?>> {
-        return mainRepository.getUserProductList()
-    }
+    fun getProductList(query: String?): LiveData<List<ProductEntity?>> =
+        mainRepository.getProductList(query)
 
-    fun getUserChatList(): LiveData<List<ProductEntity?>> {
-        return mainRepository.getUserChatList()
-    }
+    fun getUserProductList(): LiveData<List<ProductEntity?>> = mainRepository.getUserProductList()
 
-    fun getUserRentingHistoryList(): LiveData<List<ProductEntity?>> {
-        return mainRepository.getUserRentingHistoryList()
-    }
+    fun getUserChatList(): LiveData<List<ProductEntity?>> = mainRepository.getUserChatList()
 
-    fun getUserDetail(): LiveData<UserEntity?> {
-        return mainRepository.getUserDetail()
-    }
+    fun getUserRentingHistoryList(): LiveData<List<RentEntity?>> =
+        mainRepository.getUserRentingHistoryList()
 
-    fun editAccount(userEntity: UserEntity?) {
-        return mainRepository.editAccount(userEntity)
-    }
+    fun getUserDetail(): LiveData<UserEntity?> = mainRepository.getUserDetail()
 
-    fun addProduct(productEntity: ProductEntity?, filePath: Uri?) {
-        return mainRepository.addProduct(productEntity, filePath)
-    }
+    fun editAccount(userEntity: UserEntity?) = mainRepository.editAccount(userEntity)
 
-    fun editProduct(productEntity: ProductEntity?, filePath: Uri?) {
-        return mainRepository.editProduct(productEntity, filePath)
-    }
+    fun addProduct(productEntity: ProductEntity?, filePath: Uri?) =
+        mainRepository.addProduct(productEntity, filePath)
 
-    fun deleteProduct(productEntity: ProductEntity?) {
-        return mainRepository.deleteProduct(productEntity)
-    }
+    fun editProduct(productEntity: ProductEntity?, filePath: Uri?) =
+        mainRepository.editProduct(productEntity, filePath)
 
-    fun rentProduct(productEntity: ProductEntity?) {
-        mainRepository.rentProduct(productEntity)
-    }
+    fun deleteProduct(productEntity: ProductEntity?) = mainRepository.deleteProduct(productEntity)
 
-    fun chatOwner(productEntity: ProductEntity?) {
-        mainRepository.chatOwner(productEntity)
-    }
+    fun rentProduct(productEntity: ProductEntity?) = mainRepository.rentProduct(productEntity)
 
-    fun sendMessage(chatEntity: ChatEntity, productEntity: ProductEntity?) {
+    fun chatOwner(productEntity: ProductEntity?) = mainRepository.chatOwner(productEntity)
+
+    fun sendMessage(chatEntity: ChatEntity, productEntity: ProductEntity?) =
         mainRepository.sendMessage(chatEntity, productEntity)
-    }
 
-    fun getMessages(productEntity: ProductEntity?): LiveData<List<ChatEntity?>> {
-        return mainRepository.getMessages(productEntity)
-    }
+    fun getMessages(productEntity: ProductEntity?): LiveData<List<ChatEntity?>> =
+        mainRepository.getMessages(productEntity)
 
 }
