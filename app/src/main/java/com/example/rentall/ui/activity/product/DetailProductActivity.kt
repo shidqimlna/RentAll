@@ -10,6 +10,7 @@ import com.example.rentall.data.entity.ProductEntity
 import com.example.rentall.di.Injection
 import com.example.rentall.ui.activity.chat.ChatActivity
 import com.example.rentall.ui.activity.main.MainActivity
+import com.example.rentall.util.Helper.currencyFormatter
 import com.example.rentall.viewmodel.MainViewModel
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -67,7 +68,7 @@ class DetailProductActivity : AppCompatActivity() {
                 .into(activity_detail_product_iv_productimg)
         }.addOnFailureListener {}
         activity_detail_product_tv_name.text = productEntity?.name
-        activity_detail_product_tv_price.text = productEntity?.price
+        activity_detail_product_tv_price.text = currencyFormatter(productEntity?.price)
         activity_detail_product_tv_owner.text = productEntity?.owner
         activity_detail_product_tv_desciption.text = productEntity?.desc
     }

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_product_landscape_cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                app:cardCornerRadius="4dp"
+                android:layout_margin="8dp"
+                app:cardElevation="4dp">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+                <ImageView
+                    android:id="@+id/item_product_landscape_iv_product"
+                    android:layout_width="match_parent"
+                    android:scaleType="centerCrop"
+                    android:layout_height="match_parent" />
+
+            </androidx.cardview.widget.CardView>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingVertical="8dp"
+            android:paddingEnd="8dp">
+
+            <TextView
+                android:id="@+id/item_product_landscape_tv_name"
+                style="@style/CodeFontBold"
+                android:layout_margin="8dp"
+                android:ellipsize="end"
+                android:maxLines="2" />
+
+            <TextView
+                android:id="@+id/item_product_landscape_tv_price"
+                style="@style/CodeFontItallic"
+                android:layout_margin="4dp"
+                android:ellipsize="end"
+                android:maxLines="2" />
+
+            <TextView
+                android:id="@+id/item_product_landscape_tv_owner"
+                style="@style/CodeFontRegular"
+                android:layout_margin="4dp"
+                android:ellipsize="end"
+                android:maxLines="2" />
+
+            <TextView
+                android:id="@+id/item_product_landscape_tv_time"
+                style="@style/CodeFontRegular"
+                android:layout_margin="4dp"
+                android:ellipsize="end"
+                android:maxLines="2" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

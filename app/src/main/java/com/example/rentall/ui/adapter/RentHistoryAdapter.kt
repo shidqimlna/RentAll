@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.rentall.R
 import com.example.rentall.data.entity.RentEntity
+import com.example.rentall.util.Helper.currencyFormatter
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import kotlinx.android.synthetic.main.item_rent_history.view.*
+import kotlinx.android.synthetic.main.item_product_landscape.view.*
 
 class RentHistoryAdapter : RecyclerView.Adapter<RentHistoryAdapter.ListViewHolder>() {
     private val listProducts = ArrayList<RentEntity?>()
@@ -25,7 +26,7 @@ class RentHistoryAdapter : RecyclerView.Adapter<RentHistoryAdapter.ListViewHolde
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ListViewHolder =
         ListViewHolder(
             LayoutInflater.from(viewGroup.context).inflate(
-                R.layout.item_rent_history,
+                R.layout.item_product_landscape,
                 viewGroup,
                 false
             )
@@ -45,13 +46,13 @@ class RentHistoryAdapter : RecyclerView.Adapter<RentHistoryAdapter.ListViewHolde
                         storageReference.child("images/products/${it.id}").downloadUrl.addOnSuccessListener { uri ->
                             Glide.with(context)
                                 .load(uri)
-                                .into(item_rent_history_iv_product)
+                                .into(item_product_landscape_iv_product)
                         }.addOnFailureListener {}
-                        item_rent_history_tv_name.text = it.name
-                        item_rent_history_tv_price.text = it.price
-                        item_rent_history_tv_owner.text = it.owner
+                        item_product_landscape_tv_name.text = it.name
+                        item_product_landscape_tv_price.text = currencyFormatter(it.price)
+                        item_product_landscape_tv_owner.text = it.owner
                     }
-                    item_rent_history_tv_time.text = it.time
+                    item_product_landscape_tv_time.text = it.time
                 }
             }
         }

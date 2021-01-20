@@ -324,7 +324,7 @@ class RemoteDataSource {
         val productInfo: MutableMap<String, Any> = HashMap()
         productInfo["id"] = productId
         productInfo["name"] = productEntity?.name.toString()
-        productInfo["price"] = productEntity?.price.toString()
+        productInfo["price"] = productEntity?.price.toString().toInt()
         productInfo["desc"] = productEntity?.desc.toString()
         productInfo["owner"] = productEntity?.owner.toString()
         productRef.updateChildren(productInfo)
@@ -345,7 +345,7 @@ class RemoteDataSource {
             FirebaseDatabase.getInstance().reference.child("Products").child(productEntity?.id!!)
         val productInfo: MutableMap<String, Any> = HashMap()
         productInfo["name"] = productEntity.name.toString()
-        productInfo["price"] = productEntity.price.toString()
+        productInfo["price"] = productEntity.price.toString().toInt()
         productInfo["desc"] = productEntity.desc.toString()
         productRef.updateChildren(productInfo)
 

@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_margin="16dp">
+        android:layout_margin="8dp">
 
         <ImageView
             android:layout_width="150dp"
@@ -41,31 +41,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/activity_user_acc_container_image"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/activity_user_acc_tv_username"
             style="@style/CodeFontBold"
-            android:layout_margin="4dp"
+            android:layout_margin="2dp"
             android:gravity="center" />
 
         <TextView
             android:id="@+id/activity_user_acc_tv_email"
             style="@style/CodeFontRegular"
-            android:layout_margin="4dp"
+            android:layout_margin="2dp"
             android:gravity="center" />
 
         <TextView
             android:id="@+id/activity_user_acc_tv_address"
             style="@style/CodeFontRegular"
-            android:layout_margin="4dp"
+            android:layout_margin="2dp"
             android:gravity="center" />
 
         <TextView
             android:id="@+id/activity_user_acc_tv_phone"
             style="@style/CodeFontItallic"
-            android:layout_margin="4dp"
+            android:layout_margin="2dp"
             android:gravity="center" />
 
     </LinearLayout>

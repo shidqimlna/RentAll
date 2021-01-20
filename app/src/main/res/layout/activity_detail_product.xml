@@ -10,9 +10,10 @@
         android:id="@+id/activity_detail_product_iv_productimg"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:scaleType="centerCrop"
         android:background="@color/colorWhite" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/activity_detail_product_container_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,17 +23,18 @@
         <TextView
             android:id="@+id/activity_detail_product_tv_name"
             style="@style/CodeFontBold"
+            android:layout_width="wrap_content"
             android:layout_margin="8dp"
-            android:layout_weight="2"
             android:text="Product Name" />
 
         <TextView
             android:id="@+id/activity_detail_product_tv_price"
             style="@style/CodeFontItallic"
+            android:layout_width="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_margin="8dp"
-            android:layout_weight="8"
             android:text="Price" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/activity_detail_product_tv_owner"

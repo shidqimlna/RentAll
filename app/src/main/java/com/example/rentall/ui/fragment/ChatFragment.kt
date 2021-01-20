@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rentall.R
 import com.example.rentall.di.Injection
 import com.example.rentall.ui.adapter.GroupAdapter
@@ -41,7 +41,7 @@ class ChatFragment : Fragment() {
 
             with(fragment_chat_rv_group) {
                 setHasFixedSize(true)
-                layoutManager = GridLayoutManager(context, 2)
+                layoutManager = LinearLayoutManager(context)
                 adapter = groupAdapter
             }
         }

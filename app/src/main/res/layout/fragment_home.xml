@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:padding="32dp"
+        android:padding="24dp"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -28,6 +28,7 @@
             <TextView
                 android:id="@+id/fragment_home_tv_username"
                 style="@style/CodeFontBold"
+                android:textSize="20sp"
                 android:textColor="@color/colorWhite" />
 
         </LinearLayout>
@@ -49,12 +50,10 @@
 
         <EditText
             android:id="@+id/fragment_home_et_search"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:hint="Ex. Mobil" />
+            style="@style/CodeFontRegular"
+            android:layout_weight="1" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/fragment_home_btn_search"
             android:layout_width="match_parent"
             android:layout_weight="5"

@@ -16,6 +16,7 @@
             android:id="@+id/activity_new_product_iv_productimg"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:scaleType="centerCrop"
             android:layout_gravity="center"
             android:background="@color/colorWhiteOpacity" />
 
@@ -92,6 +93,7 @@
         android:id="@+id/activity_new_product_btn_submit"
         style="@style/CodeFontRegular"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
         android:layout_alignParentBottom="true"
         android:background="@color/colorGreen"
         android:text="Submit" />

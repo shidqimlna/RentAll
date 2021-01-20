@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorPrimary"
         android:orientation="vertical">
 
         <TextView
@@ -46,8 +46,8 @@
 
         <EditText
             android:id="@+id/activity_chat_et_text"
+            style="@style/CodeFontRegular"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="write your message here..." />
 

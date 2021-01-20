@@ -16,6 +16,7 @@
             android:id="@+id/activity_edit_product_iv_productimg"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:scaleType="centerCrop"
             android:layout_gravity="center"
             android:background="@color/colorWhiteOpacity" />
 
@@ -98,6 +99,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/colorPrimary"
             android:background="@color/colorRed"
             android:text="Delete" />
 
@@ -107,6 +109,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/colorPrimary"
             android:background="@color/colorGreen"
             android:text="Update" />
 

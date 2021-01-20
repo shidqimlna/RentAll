@@ -43,7 +43,7 @@ class NewProductActivity : AppCompatActivity() {
         if (filePath != null) {
             val productEntity: ProductEntity? = ProductEntity()
             productEntity?.name = activity_new_product_et_name.text.toString()
-            productEntity?.price = activity_new_product_et_price.text.toString()
+            productEntity?.price = activity_new_product_et_price.text.toString().toInt()
             productEntity?.desc = activity_new_product_et_desciption.text.toString()
             viewModel.getUserDetail().observe(this, { user ->
                 productEntity?.owner = user?.fullname!!

@@ -13,12 +13,12 @@
         <TextView
             android:id="@+id/item_chat_tv_name"
             style="@style/CodeFontRegular"
+            android:layout_width="wrap_content"
             android:text="smith" />
 
         <TextView
             android:id="@+id/item_chat_tv_time"
             style="@style/CodeFontRegularGrey"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_marginStart="8dp"
             android:text="december 23, 2020" />

@@ -64,13 +64,13 @@ class EditProductActivity : AppCompatActivity() {
                 .into(activity_edit_product_iv_productimg)
         }.addOnFailureListener {}
         activity_edit_product_et_name.setText(productEntity?.name)
-        activity_edit_product_et_price.setText(productEntity?.price)
+        activity_edit_product_et_price.setText(productEntity?.price.toString())
         activity_edit_product_et_desciption.setText(productEntity?.desc)
     }
 
     private fun uploadData() {
         productEntity?.name = activity_edit_product_et_name.text.toString()
-        productEntity?.price = activity_edit_product_et_price.text.toString()
+        productEntity?.price = activity_edit_product_et_price.text.toString().toInt()
         productEntity?.desc = activity_edit_product_et_desciption.text.toString()
         viewModel.editProduct(productEntity, filePath)
         val intent = Intent(this@EditProductActivity, UserAccountActivity::class.java)
